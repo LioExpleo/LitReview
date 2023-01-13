@@ -1,8 +1,34 @@
-{% extends "base.html" %}
+
+
+{% extends "base2.html" %}
+
+{% load static %}
 {% block content %}
-<h2>Connectez-vous </h2>
+
 <div>
-    <form method="post">
+
+<div>
+    <div>
+    <small>
+        <div id="id_login_inscript">
+        <h2>Inscrivez-vous maintenant</h2>
+            </div>
+        <a href="{% url 'register' %}" >
+        <button type="submit">s'inscrire.... </button>
+        </a>
+
+    <br>
+        <!--
+        Mot de passe oublié ?
+        <a href="#">
+            Renouveler mon mot de passe
+        </a>
+        -->
+    </small>
+    </div >
+</div >
+    <h2>Connectez-vous </h2>
+    <form method="post" id = id="id_login_connect">
         {% csrf_token %}
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}
@@ -23,22 +49,5 @@
     </form>
 </div>
 
-<div>
-    <small>
-        <div>
-        Inscrivez-vous maintenant
-            </div>
-        <a href="{% url 'register' %}" >
-        <button type="submit">s'inscrire </button
 
-        </a>
-    <br>
-        <!--
-        Mot de passe oublié ?
-        <a href="#">
-            Renouveler mon mot de passe
-        </a>
-        -->
-    </small>
-</div>
 {% endblock %}

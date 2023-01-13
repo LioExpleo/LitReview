@@ -37,4 +37,6 @@ def indexUserFollows(request):
      if form.is_valid():
         form.save()
         form = UserFollowsForm()
-     return render(request, 'indexUserFollows.html', {'form': form, 'message': messages} )
+     return render(request, 'indexReview.html', {'form': form, 'message': messages} )
+
+

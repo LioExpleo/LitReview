@@ -13,6 +13,8 @@ class TicketForm(ModelForm):
         enctype = "multipart/form-data"
 
 
+
+
         """
          'image': forms.TextInput(
                 attrs={
