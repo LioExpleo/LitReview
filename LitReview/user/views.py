@@ -1,10 +1,26 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect
+from .models import UserModel
+from .models import UserModel
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
+
+
+@login_required # fonction décorateur fournie par framework django, celle-ci
+
+#Dans le cas présent nous utiliserons un décorateur d’authentification login_required
+# qui va sécuriser et restreindre l’accès à la page d’accueil selon qu’un utilisateur est authentifiée ou non.
+
+#si un utilisateur tente d’accéder à la page d’accueil pour la première fois, il sera automatiquement redirigé
+# vers la page de connexion, dont l’url  LOGIN_URL est définie dans le fichier de configuration settings.py
+
+def home(request):
+	context ={
+	'home': UserModel.objects.all()
+	}
+	return render(request, 'home.html',context)
+
 
 def register(request):
 	if request.method == 'POST' :
@@ -17,9 +33,6 @@ def register(request):
 			login(request,user)
 			messages.success(request, f'Coucou {username}, Votre compte a été créé avec succès !')
 			return redirect('home')
-	else :
+	else:
 		form = UserCreationForm()
-	return render(request,'registration/register.html',{'form' : form})
-from django.shortcuts import render
-
-
+	return render(request,'registration/register.html', {'form' : form})

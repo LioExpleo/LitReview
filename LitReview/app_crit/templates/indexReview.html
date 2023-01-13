@@ -1,0 +1,19 @@
+
+<!--
+<link rel="stylesheet" href="{{ STATIC_URL }}app_crit/css/style.css" type="text/css">
+<img src="images/img1.jpg" alt="Image" />
+<img src="{{ STATIC_URL }}app_crit/images/img1.jpg" alt="Image" />
+-->
+
+{% block content %}
+
+<h3> {{message}}</h3>
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"> CREATE review</button>
+</form>
+
+{% endblock %}
