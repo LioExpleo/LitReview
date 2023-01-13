@@ -1,34 +1,30 @@
-
-
 {% extends "base2.html" %}
 
 {% load static %}
 {% block content %}
 
-<div>
-
-<div>
-    <div>
-    <small>
-        <div id="id_login_inscript">
+<section id="block__connection">
+    <div class = "block__registration">
+    <!-- <small> -->
         <h2>Inscrivez-vous maintenant</h2>
-            </div>
+
         <a href="{% url 'register' %}" >
         <button type="submit">s'inscrire.... </button>
         </a>
 
-    <br>
+     <!-- <br> -->
         <!--
         Mot de passe oublié ?
         <a href="#">
             Renouveler mon mot de passe
         </a>
         -->
-    </small>
+    <!-- </small> -->
     </div >
-</div >
-    <h2>Connectez-vous </h2>
-    <form method="post" id = id="id_login_connect">
+
+    <form method="post" id = "id_login_connect">
+        <div class=block__login">
+            <h2>Connectez-vous </h2>
         {% csrf_token %}
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}
@@ -48,6 +44,6 @@
         <button type="submit">se connecter</button>
     </form>
 </div>
-
+</section>
 
 {% endblock %}

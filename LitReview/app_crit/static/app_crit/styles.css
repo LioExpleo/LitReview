@@ -1,14 +1,32 @@
-
-
-
 #mainTitle
 {
     text-align: center;
 }
-sr-only
-{
-    text-align: center;
-}
+
 h1, h2, h3 {
   color: green;
 }
+
+#block__connection
+{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20em;
+    margin-right: 20em;
+    margin-bottom: 1000em;
+}
+
+#block__registration
+{
+    width: 50%;
+}
+
+#block__login
+{
+    width: 5%;
+}
+
+
+
+
+
