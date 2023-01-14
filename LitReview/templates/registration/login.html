@@ -1,15 +1,14 @@
-{% extends "base2.html" %}
+{% extends "base.html" %}
 
-{% load static %}
 {% block content %}
 
-<section id="block__connection">
+<section id="bloc_connection">
     <div class = "block__registration">
     <!-- <small> -->
         <h2>Inscrivez-vous maintenant</h2>
 
         <a href="{% url 'register' %}" >
-        <button type="submit">s'inscrire.... </button>
+        <button id="btn_inscr" type="submit">s'inscrire.... </button>
         </a>
 
      <!-- <br> -->
@@ -41,7 +40,7 @@
 
         {% endfor %}
          </table>
-        <button type="submit">se connecter</button>
+        <button id="btn_connect" type="submit">se connecter</button>
         </div>
     </form>
 

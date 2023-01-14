@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Inscrivez-vous</h2>
-    <form method="post" id="bloc_inscript">
+<section id="bloc_inscription">
+    <h2 id="title_inscr">Inscrivez-vous</h2>
+    <form method="post" class="reg_inscript">
         {% csrf_token %}
         <table>
         {% for field in form %}
@@ -15,15 +16,16 @@
             {% endfor %}
           {% endfor %}
          </table>
-        <button type="submit">s'inscrire</button>
+        <button type="submit" id="btn_inscrire">s'inscrire</button>
     </form>
 
     <div>
-    <small>
+    <small >
         <!-- Déjà inscrit.e? -->
         <a href="{% url 'login' %}">
-        <button type="submit">Retourner </button
+        <button type="submit" id="btn_retour">Retourner </button>
             </a>
     </small>
   </div>
+</section>
 {% endblock %}

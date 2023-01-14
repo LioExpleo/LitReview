@@ -1,32 +1,77 @@
-#mainTitle
+
+
+#base_title
 {
     text-align: center;
+    color: purple
 }
 
 h1, h2, h3 {
-  color: green;
+  color: Red;
 }
 
-#block__connection
+#bloc_connection
 {
     display: flex;
-    justify-content: space-between;
-    margin-left: 20em;
-    margin-right: 20em;
-    margin-bottom: 1000em;
+    gap: 12em;
+    margin-left: 33em;
 }
 
-#block__registration
+block__registration
 {
-    width: 50%;
+margin-left: 8em;
 }
 
-#block__login
+block__login
 {
-    width: 5%;
+margin-left: 50em;
 }
 
+#btn_inscr
+{
+width: 120px;
+height: 25px;
+border-radius: 7px
+margin-left: 7em;
+}
+#btn_connect
+{
+width: 120px;
+height: 25px;
+border-radius: 7px
+margin-left: 18em;
+margin-top: 2em;
+}
 
+#title_inscr
+{
+color: Blue;
+margin-left: 9em;
+}
+/* comment*/
+#bloc_inscription
+{
+    margin-left: 37em;
+}
 
+#btn_inscrire
+{
+margin-left: 25em;
+width: 120px;
+height: 25px;
+border-radius: 7px
+margin-left: 18em;
+margin-top: 2em;
+}
+
+#btn_retour
+{
+margin-left: 10em;
+width: 120px;
+height: 25px;
+border-radius: 7px
+margin-left: 50em;
+margin-top: 1em;
+}
 
 
