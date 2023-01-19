@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<section id="bloc_connection">
-    <div class = "block__registration">
+<section id="log_bloc_connection">
+    <div class = "log_block_registr">
     <!-- <small> -->
         <h2>Inscrivez-vous maintenant</h2>
 
         <a href="{% url 'register' %}" >
-        <button id="btn_inscr" type="submit">s'inscrire.... </button>
+        <button id="log_btn_inscr" type="submit">s'inscrire.... </button>
         </a>
 
      <!-- <br> -->
@@ -22,7 +22,7 @@
     </div >
 
     <form method="post" id = "id_login_connect">
-        <div class=block__login">
+        <div class=log_bloc_login">
             <h2>Connectez-vous </h2>
         {% csrf_token %}
         {% if form.non_field_errors %}
@@ -40,7 +40,7 @@
 
         {% endfor %}
          </table>
-        <button id="btn_connect" type="submit">se connecter</button>
+        <button id="log_btn_connect" type="submit">se connecter</button>
         </div>
     </form>
 

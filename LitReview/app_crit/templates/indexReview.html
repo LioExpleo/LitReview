@@ -1,14 +1,31 @@
 
-
 {% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block header_page %}
+<div class="header_page">
+    <span class="header_page__title">Review</span>
+</div>
+<style type="text/css">
+    review_form_radio{
+    display: flex;
+}
+</style>
+
+{% endblock %}
+
+
 {% block content %}
 
 <h3> {{message}} </h3>
 
+<div class="review_body">
+
 <form method="post" enctype="multipart/form-data" id="creat_review">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit"> CREATE review </button>
-</form>
+    <button type="submit"> ENVOYER </button>
 
+</form>
+</div>
 {% endblock %}

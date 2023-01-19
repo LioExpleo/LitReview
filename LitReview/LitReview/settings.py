@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_crit', # declaration projet à importer
     'user', # declaration projet à importer
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

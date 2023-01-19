@@ -1,6 +1,6 @@
 from .views import indexTicket, indexReview, indexUserFollows
 
-from .views import indexReview, indexTicket, indexUserFollows
+from .views import indexReview, indexTicket, indexUserFollows, indexAbonnement
 from django.urls import path
 
 # 1 nom affiché dans l'adresse navigateur
@@ -9,5 +9,5 @@ from django.urls import path
 urlpatterns = [path('CreatTicket/', indexTicket, name='indexTicket'),
                path('CreatReview/', indexReview, name='indexReview'),
                path('CreatUserFollows/', indexUserFollows, name='indexUserFollows'),
-
+               path('CreatAbonnement/', indexAbonnement, name='indexAbonnement'),
               ]

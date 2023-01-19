@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+    Abonnements
+{% endblock %}
+
+{% block header_page %}
+    <div class="header_page">
+        <span class="header_page_title">Abonnements</span>
+    </div>
+{% endblock %}
+
+{% block content %}
+<h3> Page d'abonnement</h3>
+
+<button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Envoyer</button>
+<button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Désabonner</button>
+<button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Désabonner</button>
+<button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Désabonner</button>
+
+<div class="subscription_body">
+        <p class="subscription_body__title">Suivre d'autres utilisateurs</p>
+        <form method="post" action="/subsription/" class="subscription_body__form">
+            {% csrf_token %}
+            {{ form.username }}
+            <div class="subscription_body__form__validate">
+                <button type="submit" class="btn">Envoyer</button>
+                {{ form.username.errors }}
+            </div>
+        </form>
+
+{%if notes %}
+    {% for note in notes %}
+        <article class="media content-section">
+            <div class="media-body">
+                <h2><a class="article-title" href="#">{{ note.title }}</a></h2>
+
+                <div class="article-metadata">
+                    <small class="article-author">{{ note.author }}, </small>
+                    <small class="article-date">{{ note.creation_date }}</small>
+                </div>
+                <p class="article-content">{{ note.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% else %}
+       <h5 class="alert alert-warning">Vous n'avez pas encore de notes !</h5>
+{% endif %}
+{% endblock %}

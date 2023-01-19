@@ -7,71 +7,79 @@
 }
 
 h1, h2, h3 {
-  color: Red;
+  color: Blue;
 }
 
-#bloc_connection
+#log_bloc_connection
 {
     display: flex;
     gap: 12em;
     margin-left: 33em;
 }
 
-block__registration
+log_block_registr
 {
-margin-left: 8em;
+margin-left: 0em;
 }
 
-block__login
+log_bloc_login
 {
 margin-left: 50em;
 }
 
-#btn_inscr
+#log_btn_inscr
 {
+margin-left: 5em;
 width: 120px;
 height: 25px;
 border-radius: 7px
-margin-left: 7em;
-}
-#btn_connect
-{
-width: 120px;
-height: 25px;
-border-radius: 7px
-margin-left: 18em;
-margin-top: 2em;
-}
 
-#title_inscr
+}
+#log_btn_connect
 {
-color: Blue;
+margin-left: 20em;
+margin-top: 2em;
+width: 120px;
+height: 25px;
+border-radius: 7px
+}
+s
+
+#reg_title_inscr
+{
 margin-left: 9em;
 }
 /* comment*/
-#bloc_inscription
+#reg_bloc_inscription
 {
     margin-left: 37em;
 }
 
-#btn_inscrire
+#reg_btn_retour
 {
-margin-left: 25em;
-width: 120px;
-height: 25px;
-border-radius: 7px
-margin-left: 18em;
+margin-left: 15em;
 margin-top: 2em;
-}
-
-#btn_retour
-{
-margin-left: 10em;
-width: 120px;
+width: 80px;
 height: 25px;
 border-radius: 7px
-margin-left: 50em;
-margin-top: 1em;
 }
 
+#reg_btn_inscr
+{
+margin-left: 2em;
+margin-top: 0em;
+width: 80px;
+height: 25px;
+border-radius: 7px
+}
+
+review_body__form__form{
+    margin-left: 20px;
+    margin-right: 20px;
+    color: red;
+}
+
+review_form_rating{
+    display: flex;
+}
 

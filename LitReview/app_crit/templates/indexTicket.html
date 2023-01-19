@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_2.html" %}
 {% block content %}
 <h3> {{message}}</h3>
 
@@ -6,7 +6,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit"> CREATE TICKET</button>
+    <button type="submit"> ENVOYER</button>
 </form>
 
 {% endblock %}
