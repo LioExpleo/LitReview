@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+
+
 {% block title %}
     Abonnements
 {% endblock %}
+
+
 
 {% block header_page %}
     <div class="header_page">
@@ -9,8 +13,11 @@
     </div>
 {% endblock %}
 
+
 {% block content %}
 <h3> Page d'abonnement</h3>
+<h1>  {{ obj_recup_01 }}</h1>
+
 
 <button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Envoyer</button>
 <button onclick="window.location.href = 'http://127.0.0.1:8000/login/';">Désabonner</button>
@@ -45,4 +52,5 @@
 {% else %}
        <h5 class="alert alert-warning">Vous n'avez pas encore de notes !</h5>
 {% endif %}
+-->
 {% endblock %}

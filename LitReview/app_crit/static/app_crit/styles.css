@@ -73,13 +73,36 @@ height: 25px;
 border-radius: 7px
 }
 
-review_body__form__form{
-    margin-left: 20px;
-    margin-right: 20px;
+.review_form_headline
+{
+color: green;
+}
+
+
+.review_form_body{
+    margin-left: 40px;
+    background-color: yellow;
     color: red;
+
 }
 
-review_form_rating{
+.review_form_rating{
     display: flex;
+    width: 70%;
+    list-style-type: None;
+    letter-spacing:6rem;
+    margin-left:calc( 15% - 25%);
+    justify-content: space-around;
+    opacity: 1;
+    color:  purple;
+    text-align: left;
 }
 
+.review_form_mess{
+text-orientation: inherit;
+}
+
+.review_form_btn{
+position: absolute;
+top: 900px; left: 550px;
+}

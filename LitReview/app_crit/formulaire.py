@@ -15,8 +15,9 @@ class TicketForm(ModelForm):
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
     class Meta:
         model = Ticket
-        fields = ['title', 'description', 'image']
-        enctype = "multipart/form-data"
+
+        fields = ['title', 'description', 'image', 'user'] #
+        #enctype = "multipart/form-data"
 
 
         """

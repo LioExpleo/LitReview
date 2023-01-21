@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 <h3> {{message}}</h3>
+<h3> {{message}}</h3>
+<h3> {{Test}}</h3>
+<h3> {{obj_recup_01}}</h3>
+<p> {{reviews_to_my_tickets}}</p>
 
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"> CREATE Follows</button>
-</form>
+
+{% for message in reviews_to_my_tickets %}
+        {{message}}
+       {% endfor %}
+
+
 
 {% endblock %}
