@@ -17,17 +17,23 @@ class TicketForm(ModelForm):
         model = Ticket
 
         fields = ['title', 'description', 'image', 'user'] #
-        #enctype = "multipart/form-data"
-
-
-        """
-         'image': forms.TextInput(
-                attrs={
-                    'class': 'ticket_body__form__form',
-                    'placeholder': "facultatif, lien URL uniquement."
-                }
-            )
-        """
+        widgets = {
+                'title': forms.TextInput(
+                    attrs={
+                        'class': 'ticket_form_title'
+                    }
+                ),
+                'description': forms.Textarea(
+                    attrs={
+                        'class': 'ticket_form_description'
+                    }
+                ),
+                'image': forms.TextInput(
+                    attrs={
+                        'class': 'ticket_form_image'
+                    }
+                )
+            }
 
 class ReviewForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser
@@ -70,6 +76,12 @@ class UserFollowsForm(ModelForm):
         fields = ['user', 'followed_user']
         enctype = "multipart/form-data"
 
+        widgets ={
+                'followsUser': forms.Textarea(
+                attrs={
+                    'class': 'UserFollows_form_followsUser'
+                }
+                )
+        }
 
-class Abonnement:
-    pass
+

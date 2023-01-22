@@ -4,13 +4,16 @@ from django.shortcuts import render
 # importer les modèles
 from .models import Ticket, Review, UserFollows
 
+
 # importer la classe du formulaire
-from .formulaire import TicketForm, ReviewForm, UserFollowsForm, Abonnement
+from .formulaire import TicketForm, ReviewForm, UserFollowsForm
 
 from django.shortcuts import (
     render,
     redirect,
 )
+
+from django.contrib.auth.models import User
 
 # Pour créer le formulaire, faire l'instanciation sur la classe du formulaire importé ReviewForm
 # indiquer le formulaire sous forme d'un dictionnaire avec {}
@@ -69,27 +72,45 @@ def indexAbonnement(request):
     obj_recup_01 = Review.objects.filter(ticket__user_id=request.user.id)
     obj_recup_01 = Review.objects.all()
 
-    #Review.objects.filter(Review.rating__contains='3')
-    #obj_recup_01 = Review.objects.filter(Review="Review object (4)")
-    # obj_recup_01 = Review.objects.get(Headline="21230110")
-
-    #obj_recup_01 = Review.objects.filter(Ticket.title== "Test Ticket 20012023")
-
-    # var =
-    # nom du modèle
-    # .objects.filter
-
     #obj_recup_01 = Ticket.objects.filter(Title='Title 21012023')
+    obj_recup_00 = Review.objects.all()
     obj_recup_01 = Review.objects.filter(user_id=2)
-    obj_recup_01 = Review.objects.filter(rating=2)
-    obj_recup_01 = Review.objects.values("rating")
-    #obj_recup_01 = Review.objects.filter(user__name='22222')
+    obj_recup_02 = Review.objects.filter(rating=2)
+    obj_recup_03 = Review.objects.values("rating")
+    obj_recup_04 = Review.objects.all()
+    obj_recup_05 = Review.objects.all()
+    obj_recup_06 = UserFollows.objects.values("user")
+    obj_recup_07 = UserFollows.objects.values("followed_user")
 
+    #obj_recup_04 = UserFollows.objects.filter(user=user)
+    #obj_recup_05 = UserFollows.objects.filter(followed_user=user)
+    #obj_recup_06 = Review.objects.filter(user__id__in=followed_user)
+    #obj_recup_07 = Ticket.annotate(content_type=Value('TICKET', CharField()))
 
+    '''
+    def hello(request):
+    bands = Band.objects.all()
+    return HttpResponse(f”””
+        <html>
+            <head><title>Merchex</title><head>
+            <body>
+                <h1>Hello Django !</h1>
+                <p>Mes groupes préférés sont :<p>
+                <ul>
+                    <li>{bands[0].name}</li>
+                    <li>{bands[1].name}</li>
+                    <li>{bands[2].name}</li>
+                </ul>
+            </body>
+        </html>
+    ”””)
+    '''
+
+    # templateAbonnement.html
     if form.is_valid():
         form.save()
         form = UserFollowsForm()
-    return render(request, 'indexAbonnement.html', {'form': form, 'obj_recup_01': obj_recup_01} )
+    return render(request, 'templateAbonnement.html', {'form': form, 'obj_recup_01': obj_recup_01, 'obj_recup_02': obj_recup_02, 'obj_recup_03': obj_recup_03, 'obj_recup_04': obj_recup_04, 'obj_recup_05': obj_recup_05, 'obj_recup_06': obj_recup_06, 'obj_recup_07': obj_recup_07} )
 
 
     # reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
