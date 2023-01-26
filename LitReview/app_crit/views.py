@@ -22,7 +22,6 @@ from django.contrib.auth.models import User
 # Définir la classe qui va permettre de générer le formulaire en la faisant dériver de ModelForm
 # et en lui spécifiant le modèle à inclure
 
-
 def indexTicket(request):
      form = TicketForm(request.POST or None, request.FILES) #
      messages = "enregistrement"
@@ -46,23 +45,31 @@ def indexReview(request):
 
 def indexUserFollows(request):
      form = UserFollowsForm(request.POST or None)
+     '''
      messages = "enregistrement ok"
      reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
 
      Test= "test var"
      obj_recup_01 = "test objet recup 1"
+    '''
 
      if form.is_valid():
         form.save()
         form = UserFollowsForm()
-     return render(request, 'indexUserFollows.html', {'form': form, 'message': messages, 'reviews_to_my_tickets': reviews_to_my_tickets, 'Test': Test,  'obj_recup_01': obj_recup_01} )
+     return render(request, 'indexUserFollows.html', {'form': form})
+     #return render(request, 'indexUserFollows.html', {'form': form})
 
 
 
+from app_crit.models import UserFollows
 def indexAbonnement(request):
+    #recup de tous les objets de la base de données
+
+    #userFollow = UserFollows.objects.all()
     """
     Management function of the followed users page
     """
+
     form = UserFollowsForm(request.POST or None)
 
     obj_recup_01 = "test objet recup 1"
@@ -70,22 +77,54 @@ def indexAbonnement(request):
     #if request.user.is_authenticated:
     obj_recup_01 = "test objet recup 1"
     obj_recup_01 = Review.objects.filter(ticket__user_id=request.user.id)
-    obj_recup_01 = Review.objects.all()
+    #obj_recup_01 = Review.objects.all()
 
     #obj_recup_01 = Ticket.objects.filter(Title='Title 21012023')
     obj_recup_00 = Review.objects.all()
     obj_recup_01 = Review.objects.filter(user_id=2)
     obj_recup_02 = Review.objects.filter(rating=2)
     obj_recup_03 = Review.objects.values("rating")
-    obj_recup_04 = Review.objects.all()
-    obj_recup_05 = Review.objects.all()
-    obj_recup_06 = UserFollows.objects.values("user")
-    obj_recup_07 = UserFollows.objects.values("followed_user")
+
+    obj_recup_04 = UserFollows.objects.values("user")
+    obj_recup_04 = obj_recup_04[4]
+    obj_recup_05 = UserFollows.objects.values("user", "followed_user")
+    obj_recup_06 = UserFollows.objects.values("followed_user")
+    obj_recup_07 = UserFollows.objects.values("user", "followed_user")
 
     #obj_recup_04 = UserFollows.objects.filter(user=user)
     #obj_recup_05 = UserFollows.objects.filter(followed_user=user)
     #obj_recup_06 = Review.objects.filter(user__id__in=followed_user)
     #obj_recup_07 = Ticket.annotate(content_type=Value('TICKET', CharField()))
+
+    # templateAbonnement.html
+    ''''''
+    #user = UserFollows.objects.filter("user")
+    userFollow = UserFollows.objects.all()
+
+    if form.is_valid():
+        form.save()
+        form = UserFollowsForm()
+    return render(request, 'templateAbonnement.html', {'form': form, 'obj_recup_01': obj_recup_01[0],
+                                                       'obj_recup_02': obj_recup_02[0],
+                                                       'obj_recup_03': obj_recup_03[0],
+                                                       'obj_recup_04': obj_recup_04,
+                                                       'obj_recup_05': obj_recup_05,
+                                                       'obj_recup_06': obj_recup_06,
+                                                       'obj_recup_07': obj_recup_07[2],
+                                                       'userFollow': userFollow[4],
+                                                       })
+
+    # reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
+    #obj_recup_01 = Reviews.objects.get(name='Description')
+
+    #obj_recup_02 = Reviews.objects.get(name='Description')
+    #obj_recup_03 = Reviews.objects.get(name='Description')
+    #reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
+
+    #return(render(request, 'indexUserFollows.html', context={ "obj_recup_01": obj_recup_01 }))
+    #X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
+
+    #context = { indexReview()}
 
     '''
     def hello(request):
@@ -105,23 +144,3 @@ def indexAbonnement(request):
         </html>
     ”””)
     '''
-
-    # templateAbonnement.html
-    if form.is_valid():
-        form.save()
-        form = UserFollowsForm()
-    return render(request, 'templateAbonnement.html', {'form': form, 'obj_recup_01': obj_recup_01, 'obj_recup_02': obj_recup_02, 'obj_recup_03': obj_recup_03, 'obj_recup_04': obj_recup_04, 'obj_recup_05': obj_recup_05, 'obj_recup_06': obj_recup_06, 'obj_recup_07': obj_recup_07} )
-
-
-    # reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
-    #obj_recup_01 = Reviews.objects.get(name='Description')
-
-    #obj_recup_02 = Reviews.objects.get(name='Description')
-    #obj_recup_03 = Reviews.objects.get(name='Description')
-    #reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
-
-    #return(render(request, 'indexUserFollows.html', context={ "obj_recup_01": obj_recup_01 }))
-    #X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
-
-    #context = { indexReview()}
-

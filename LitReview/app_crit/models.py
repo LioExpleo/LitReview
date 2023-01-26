@@ -21,13 +21,10 @@ class UserFollows(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='following')
     followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
 
-    class Meta :
+    class Meta:
         unique_together = ('user', 'followed_user')
 
-from django import forms
 
-# creating a form
-class InputForm(forms.Form):
-    first_name = forms.CharField(max_length = 200)
-    last_name = forms.CharField(max_length = 200)
-    password = forms.CharField(widget = forms.PasswordInput())
+
+
+

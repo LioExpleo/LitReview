@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app_crit', # declaration projet à importer
     'user', # declaration projet à importer
     'widget_tweaks',
+    'image_uploader_widget',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,6 @@ STATIC_URL = '/app_crit/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
+
+
+

@@ -15,8 +15,10 @@ class TicketForm(ModelForm):
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
     class Meta:
         model = Ticket
-
+        exclude = ['user']
+        exclude = ['image']
         fields = ['title', 'description', 'image', 'user'] #
+        enctype = "multipart/form-data"
         widgets = {
                 'title': forms.TextInput(
                     attrs={
@@ -43,8 +45,10 @@ class ReviewForm(ModelForm):
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
     class Meta:
         model = Review
+
         fields = ['ticket','rating', 'user', 'headline', 'body']
         # enctype = "multipart/form-data"
+
         widgets ={
                 'headline': forms.TextInput(
                 attrs={
@@ -74,7 +78,7 @@ class UserFollowsForm(ModelForm):
     class Meta:
         model = UserFollows
         fields = ['user', 'followed_user']
-        enctype = "multipart/form-data"
+        '''enctype = "multipart/form-data"
 
         widgets ={
                 'followsUser': forms.Textarea(
@@ -83,5 +87,4 @@ class UserFollowsForm(ModelForm):
                 }
                 )
         }
-
-
+'''
