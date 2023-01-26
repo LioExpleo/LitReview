@@ -15,7 +15,7 @@ class TicketForm(ModelForm):
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
     class Meta:
         model = Ticket
-        exclude = ['user']
+        # exclude = ['user']
         exclude = ['image']
         fields = ['title', 'description', 'image', 'user'] #
         enctype = "multipart/form-data"
