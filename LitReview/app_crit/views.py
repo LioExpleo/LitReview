@@ -23,13 +23,24 @@ from django.contrib.auth.models import User
 # et en lui spécifiant le modèle à inclure
 
 def indexTicket(request):
-     form = TicketForm(request.POST or None, request.FILES) #
-     messages = "enregistrement"
+     form = TicketForm(request.POST or None, request.FILES, initial={"user": request.user.id}) #
+     #form = JournalForm(initial={'tank': 123})
+
+     #form.fields['user'].initial = request.user.username
+
+     messages = request.user.username
+
+     obj_recup_01 = request.user.username
+
+     #form.fields['user'].initial = obj_recup_01
+
+
      if form.is_valid():
+
         form.save()
         form = TicketForm()
 
-     return render(request, 'indexTicket.html', {'form': form}) #, 'message': messages
+     return render(request, 'indexTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01}) #, 'message': messages
 
 def indexReview(request):
      form = ReviewForm(request.POST or None)
@@ -111,7 +122,7 @@ def indexAbonnement(request):
                                                        'obj_recup_05': obj_recup_05,
                                                        'obj_recup_06': obj_recup_06,
                                                        'obj_recup_07': obj_recup_07[2],
-                                                       'userFollow': userFollow[4],
+                                                       'userFollow': userFollow[6],
                                                        })
 
     # reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)

@@ -13,12 +13,15 @@ class TicketForm(ModelForm):
 
     # Le modèle Ticket doit être utilisé pour créer le formulaire
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
+
     class Meta:
         model = Ticket
-        # exclude = ['user']
-        exclude = ['image']
+
+        #exclude = ['user']
+        #exclude = ['image']
         fields = ['title', 'description', 'image', 'user'] #
         enctype = "multipart/form-data"
+
         widgets = {
                 'title': forms.TextInput(
                     attrs={
@@ -30,11 +33,6 @@ class TicketForm(ModelForm):
                         'class': 'ticket_form_description'
                     }
                 ),
-                'image': forms.TextInput(
-                    attrs={
-                        'class': 'ticket_form_image'
-                    }
-                )
             }
 
 class ReviewForm(ModelForm):
