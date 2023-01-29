@@ -6,7 +6,6 @@ from .forms_settings import (
     CHOICES_REVIEW_FORM
 )
 
-
 class TicketForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser
     # pour le formulaire
@@ -19,9 +18,14 @@ class TicketForm(ModelForm):
 
         #exclude = ['user']
         #exclude = ['image']
-        fields = ['title', 'description', 'image', 'user'] #
-        enctype = "multipart/form-data"
 
+        fields = ['title', 'description', 'image']
+
+        #enctype = "multipart/form-data"
+
+        labels = {"title": "Titre", "description": "Description", "image": "Image" }
+
+        '''
         widgets = {
                 'title': forms.TextInput(
                     attrs={
@@ -33,7 +37,9 @@ class TicketForm(ModelForm):
                         'class': 'ticket_form_description'
                     }
                 ),
+            
             }
+        '''
 
 class ReviewForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser

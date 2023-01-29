@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 # importer les modèles
 from .models import Ticket, Review, UserFollows
-
+from django.contrib.auth.models import User
 
 # importer la classe du formulaire
 from .formulaire import TicketForm, ReviewForm, UserFollowsForm
@@ -23,24 +23,22 @@ from django.contrib.auth.models import User
 # et en lui spécifiant le modèle à inclure
 
 def indexTicket(request):
-     form = TicketForm(request.POST or None, request.FILES, initial={"user": request.user.id}) #
-     #form = JournalForm(initial={'tank': 123})
 
-     #form.fields['user'].initial = request.user.username
-
+     form = TicketForm(request.POST or None, request.FILES) #
      messages = request.user.username
 
      obj_recup_01 = request.user.username
-
-     #form.fields['user'].initial = obj_recup_01
-
-
      if form.is_valid():
+        #obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
+        # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
+        # mais il n'est pas dans le formulaire.
+        donneesFormulaireTicket = form.save(commit=False)
+        donneesFormulaireTicket.user = request.user
+        #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
 
         form.save()
         form = TicketForm()
-
-     return render(request, 'indexTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01}) #, 'message': messages
+     return render(request, 'indexTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
 
 def indexReview(request):
      form = ReviewForm(request.POST or None)
@@ -65,6 +63,7 @@ def indexUserFollows(request):
     '''
 
      if form.is_valid():
+
         form.save()
         form = UserFollowsForm()
      return render(request, 'indexUserFollows.html', {'form': form})
