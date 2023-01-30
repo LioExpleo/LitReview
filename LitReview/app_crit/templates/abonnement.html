@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<h1>Suivre d'autres utilisateurs</h1>
+
+<form method="post" enctype="multipart/form-data" class="ticket">
+
+    {% include "extrait/extrCreatUserFollows.html" %}
+    {% include "extrait/extrDeleteUserFollows.html" %}
+    {% include "extrait/extrListFollows.html" %}
+
+</form>
+
+{% endblock %}

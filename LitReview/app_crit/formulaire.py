@@ -23,9 +23,9 @@ class TicketForm(ModelForm):
 
         #enctype = "multipart/form-data"
 
-        labels = {"title": "Titre", "description": "Description", "image": "Image" }
+        #labels = {"title": "Titre", "description": "Description", "image": "Image" }
 
-        '''
+
         widgets = {
                 'title': forms.TextInput(
                     attrs={
@@ -39,7 +39,6 @@ class TicketForm(ModelForm):
                 ),
             
             }
-        '''
 
 class ReviewForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser
@@ -78,12 +77,15 @@ class UserFollowsForm(ModelForm):
     # pour le formulaire
 
     # Le modèle UserFollows doit être utilisé pour créer le formulaire
-    # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
+    # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite.
     class Meta:
         model = UserFollows
-        fields = ['user', 'followed_user']
-        '''enctype = "multipart/form-data"
+        fields = ['followed_user']
+        enctype = "multipart/form-data"
 
+        labels = {"followed_user": "followed_user" }
+
+'''
         widgets ={
                 'followsUser': forms.Textarea(
                 attrs={

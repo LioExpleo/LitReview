@@ -22,14 +22,14 @@ from django.contrib.auth.models import User
 # Définir la classe qui va permettre de générer le formulaire en la faisant dériver de ModelForm
 # et en lui spécifiant le modèle à inclure
 
-def indexTicket(request):
 
+def indexTicket(request):
      form = TicketForm(request.POST or None, request.FILES) #
      messages = request.user.username
 
      obj_recup_01 = request.user.username
      if form.is_valid():
-        #obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
+        # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
         # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
         # mais il n'est pas dans le formulaire.
         donneesFormulaireTicket = form.save(commit=False)
@@ -38,7 +38,7 @@ def indexTicket(request):
 
         form.save()
         form = TicketForm()
-     return render(request, 'indexTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
+     return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
 
 def indexReview(request):
      form = ReviewForm(request.POST or None)
@@ -49,11 +49,13 @@ def indexReview(request):
         form = ReviewForm()
      else :
          messages = "Enregistrement"
-     return render(request, 'indexReview.html', {'form': form, 'messages': messages, 'reviews_to_my_tickets': reviews_to_my_tickets} )
+     return render(request, 'creatReview.html', {'form': form, 'messages': messages, 'reviews_to_my_tickets': reviews_to_my_tickets} )
 
 
 def indexUserFollows(request):
-     form = UserFollowsForm(request.POST or None)
+     form = UserFollowsForm(request.POST or None, request.FILES)
+
+
      '''
      messages = "enregistrement ok"
      reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
@@ -62,12 +64,22 @@ def indexUserFollows(request):
      obj_recup_01 = "test objet recup 1"
     '''
 
-     if form.is_valid():
+     #obj_recup = form.save(commit=False)
+     #obj_recup.user = request.user
+     obj_recup = request.user.username
 
+
+     if form.is_valid():
+        # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
+        # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
+        # mais il n'est pas dans le formulaire.
+
+        donneesFormulaire = form.save(commit=False)
+        donneesFormulaire.user = request.user
         form.save()
         form = UserFollowsForm()
-     return render(request, 'indexUserFollows.html', {'form': form})
-     #return render(request, 'indexUserFollows.html', {'form': form})
+     return render(request, 'abonnement.html', {'form': form, 'obj_recup': obj_recup})
+     #return render(request, 'abonnement.html', {'form': form})
 
 
 
@@ -131,7 +143,7 @@ def indexAbonnement(request):
     #obj_recup_03 = Reviews.objects.get(name='Description')
     #reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
 
-    #return(render(request, 'indexUserFollows.html', context={ "obj_recup_01": obj_recup_01 }))
+    #return(render(request, 'abonnement.html', context={ "obj_recup_01": obj_recup_01 }))
     #X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
 
     #context = { indexReview()}

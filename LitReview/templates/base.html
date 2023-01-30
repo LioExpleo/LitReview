@@ -25,7 +25,7 @@
         <ul class="navbar-nav mr-auto">
           <!--
             <li class="nav-item active">
-               <!--
+
             <a class="nav-link" href="{% url 'home' %}">LitReviewww<span class="sr-only">(current)</span></a>
             -->
           </li>
@@ -57,10 +57,11 @@
     </nav>
 
     <main role="main" class="container">
-      <div>
+
+        <div>
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                <div class="alert alert-{{ message.tags }}"></div>
             {% endfor %}
         {% endif%}
         {% block content %}
