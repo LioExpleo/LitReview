@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # importer les modèles
@@ -21,7 +22,6 @@ from django.contrib.auth.models import User
 # Ecrire une fonction qui va,
 # Définir la classe qui va permettre de générer le formulaire en la faisant dériver de ModelForm
 # et en lui spécifiant le modèle à inclure
-
 
 def indexTicket(request):
      form = TicketForm(request.POST or None, request.FILES) #
@@ -51,24 +51,87 @@ def indexReview(request):
          messages = "Enregistrement"
      return render(request, 'creatReview.html', {'form': form, 'messages': messages, 'reviews_to_my_tickets': reviews_to_my_tickets} )
 
-
+@login_required
 def indexUserFollows(request):
      form = UserFollowsForm(request.POST or None, request.FILES)
+     obj_recup_01 = request.user.username
+     obj_recup_02 = ""
+     boutonVue = 0
 
+     if request.method == 'POST' and "name_bouton_envoyer" in request.POST:
+         obj_recup_02 = "bouton ENVOYER récupérer dans views"
+         boutonVue = 1
 
+     if request.method == 'POST' and "name_bouton_desabonner" in request.POST:
+         obj_recup_02 = "bouton DESABONNER récupérer dans views"
+         boutonVue = 2
+
+     if boutonVue == 1:
+
+        # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
+        # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
+        # mais il n'est pas dans le formulaire.
+        donneesFormulaire = form.save(commit=False)
+        donneesFormulaire.user = request.user
+        followedUserSelect = donneesFormulaire.followed_user
+
+        if followedUserSelect != donneesFormulaire.user:
+            if form.is_valid():
+                try:
+                    form.save()
+                    form = UserFollowsForm()
+                except:
+                    obj_recup_02 = "utilisateur " + str(donneesFormulaire.followed_user) + \
+                                   " non selectionnable, vérifier si utilisateur n'est pas déjà suivi"
+        else :
+            obj_recup_02 = "l'utilisateur connecté ne peut se suivre lui-même"
      '''
-     messages = "enregistrement ok"
-     reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
+     else:
 
-     Test= "test var"
-     obj_recup_01 = "test objet recup 1"
-    '''
+        obj_recup_02 = "elseeeeeeeeeeeeeeeeeeeeeeeee"
+        #donneesFormulaire = form.save(commit=False)
+        #donneesFormulaire.user = request.user
 
-     #obj_recup = form.save(commit=False)
-     #obj_recup.user = request.user
+        #followedUserSelect = request.user
+     '''
+
+     if boutonVue == 2:
+        # essayer de mettre
+
+        donneesFormulaire = form.save(commit=False)
+        donneesFormulaire.user = request.user
+        donneesFormulaire.followed_user = request.user
+
+        #UserFollows.objects.get(user=donneesFormulaire.user, followed_user=donneesFormulaire.followed_user)
+
+        obj_recup_02 =  donneesFormulaire.followed_user
+        instance = UserFollows.objects.get(user=request.user, followed_user=request.POST['name_bouton_desabonner'])
+        instance.delete()
+
+     return render(request, 'abonnement.html', {'form': form, 'obj_recup_01': obj_recup_01, 'obj_recup_02': obj_recup_02})
+
+
+'''
+def indexDeleteUserFollow(request):
+    pass
+
+    form = UserFollowsForm(request.POST or None, request.FILES)
+    
+    if request.method == 'POST' and "delete-user-follow-button" in request.POST:
+        # get
+        instance = models.UserFollows.objects.get(user=request.user, followed_user=request.POST['delete-user-follow-button'])
+        instance.delete()
+        return render(request, 'abonnement.html', context=context)
+    #return render(request, 'abonnement.html.html', context=context)
+'''
+@login_required
+def indexUserFollows2(request):
+     form = UserFollowsForm(request.POST or None, request.FILES)
+
+     # recup de l'utilisateur connecté
      obj_recup = request.user.username
 
-
+     # Si le formulaire est valide
      if form.is_valid():
         # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
         # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
@@ -78,8 +141,26 @@ def indexUserFollows(request):
         donneesFormulaire.user = request.user
         form.save()
         form = UserFollowsForm()
-     return render(request, 'abonnement.html', {'form': form, 'obj_recup': obj_recup})
-     #return render(request, 'abonnement.html', {'form': form})
+     return render(request, 'extrait/extrCreatUserFollows.html', {'form': form, 'obj_recup': obj_recup})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
