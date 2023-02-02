@@ -35,7 +35,6 @@ def indexTicket(request):
         donneesFormulaireTicket = form.save(commit=False)
         donneesFormulaireTicket.user = request.user
         #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
-
         form.save()
         form = TicketForm()
      return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
@@ -57,16 +56,9 @@ def indexUserFollows(request):
      obj_recup_01 = request.user.username
      obj_recup_02 = ""
      boutonVue = 0
-
+     # abonnement avec click sur bouton "ENVOYER" dans html
      if request.method == 'POST' and "name_bouton_envoyer" in request.POST:
-         obj_recup_02 = "bouton ENVOYER récupérer dans views"
-         boutonVue = 1
-
-     if request.method == 'POST' and "name_bouton_desabonner" in request.POST:
-         obj_recup_02 = "bouton DESABONNER récupérer dans views"
-         boutonVue = 2
-
-     if boutonVue == 1:
+        form = UserFollowsForm(request.POST or None, request.FILES)
 
         # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
         # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
@@ -80,50 +72,25 @@ def indexUserFollows(request):
                 try:
                     form.save()
                     form = UserFollowsForm()
+                    obj_recup_02 = "Utilisateur " + str(donneesFormulaire.followed_user) + \
+                                   " ajouté dans la liste des utilisateurs suivis"
                 except:
-                    obj_recup_02 = "utilisateur " + str(donneesFormulaire.followed_user) + \
+                    obj_recup_02 = "Utilisateur " + str(donneesFormulaire.followed_user) + \
                                    " non selectionnable, vérifier si utilisateur n'est pas déjà suivi"
         else :
             obj_recup_02 = "l'utilisateur connecté ne peut se suivre lui-même"
-     '''
-     else:
 
-        obj_recup_02 = "elseeeeeeeeeeeeeeeeeeeeeeeee"
-        #donneesFormulaire = form.save(commit=False)
-        #donneesFormulaire.user = request.user
-
-        #followedUserSelect = request.user
-     '''
-
-     if boutonVue == 2:
-        # essayer de mettre
-
-        donneesFormulaire = form.save(commit=False)
-        donneesFormulaire.user = request.user
-        donneesFormulaire.followed_user = request.user
-
-        #UserFollows.objects.get(user=donneesFormulaire.user, followed_user=donneesFormulaire.followed_user)
-
-        obj_recup_02 =  donneesFormulaire.followed_user
+     # désabonnement avec click sur bouton "se désabonner" dans html
+     if request.method == 'POST' and "name_bouton_desabonner" in request.POST:
+        form = UserFollowsForm(request.POST or None, request.FILES)
         instance = UserFollows.objects.get(user=request.user, followed_user=request.POST['name_bouton_desabonner'])
+        obj_recup_02 = instance.followed_user
         instance.delete()
+        obj_recup_02 = "utilisateur " + str(obj_recup_02) + " désabonné"
 
      return render(request, 'abonnement.html', {'form': form, 'obj_recup_01': obj_recup_01, 'obj_recup_02': obj_recup_02})
 
 
-'''
-def indexDeleteUserFollow(request):
-    pass
-
-    form = UserFollowsForm(request.POST or None, request.FILES)
-    
-    if request.method == 'POST' and "delete-user-follow-button" in request.POST:
-        # get
-        instance = models.UserFollows.objects.get(user=request.user, followed_user=request.POST['delete-user-follow-button'])
-        instance.delete()
-        return render(request, 'abonnement.html', context=context)
-    #return render(request, 'abonnement.html.html', context=context)
-'''
 @login_required
 def indexUserFollows2(request):
      form = UserFollowsForm(request.POST or None, request.FILES)

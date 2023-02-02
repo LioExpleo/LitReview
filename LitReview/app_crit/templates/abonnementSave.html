@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+<h1>Suivre d'autres utilisateurs</h1>
+<form method="post" enctype="multipart/form-data" class="ticket">
+
+    {% include "extrait/extrCreatUserFollows.html" %}
+
+
+<form method="post" enctype="multipart/form-data" class="ticket">
+    {% include "extrait/extrDeleteUserFollows.html" %}
+
+     <div class="mb-4">
+        <h3>Abonnés</h3>
+        <div class="follow-list">
+        <ul class="list-group list-group-flush">
+            {% for user in request.user.followed_by.all %}
+                <li class="list-group-item">{{ user.user }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

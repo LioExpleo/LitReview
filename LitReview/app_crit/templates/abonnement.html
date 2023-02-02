@@ -1,25 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-
 <h1>Suivre d'autres utilisateurs</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
-<form method="post" enctype="multipart/form-data" class="ticket">
+<h4> User : {{ obj_recup_01 }}<h4>
+<h4> {{ obj_recup_02 }}<h4>
+{% for user in users %}
+    <option value="{{ user.id }}">{{ user.username }}</option>
+{% endfor %}
 
-    {% include "extrait/extrCreatUserFollows.html" %}
-    {% include "extrait/extrDeleteUserFollows.html" %}
+{{ form.as_p }}
+<button type="submit" class="cl_bouton_envoyer" name="name_bouton_envoyer"> ENVOYER (creat Follows)</button>
+</form>
 
-     <div class="mb-4">
-        <h3>Abonnés</h3>
-        <div class="follow-list">
-        <ul class="list-group list-group-flush">
-            {% for user in request.user.followed_by.all %}
-                <li class="list-group-item">{{ user.user }}</li>
+ <form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<form method="post">
+    <div class="mb-4"> <!--  mb-4  -->
+        <h3>Abonnements</h3>
+        <ul class="list-group list-group-flush"> <!-- list-group list-group-flush -->
+            {% for user in request.user.following.all %}
+                <!--  -->
+                <li class="list-group-item">{{ user.followed_user }}
+                    <button class="cl_bouton_desabonner" name="name_bouton_desabonner"
+                            value="{{ user.followed_user.id }}">Se désabonner</button></li>
             {% endfor %}
+
         </ul>
-        </div>
     </div>
 </form>
+
+<div class="mb-4">
+    <h3>Abonnés</h3>
+    <div class="follow-list">
+    <ul class="list-group list-group-flush">
+        {% for user in request.user.followed_by.all %}
+            <li class="list-group-item">{{ user.user }}</li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+
 
 {% endblock %}
