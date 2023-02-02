@@ -61,7 +61,7 @@ def indexUserFollows(request):
         form = UserFollowsForm(request.POST or None, request.FILES)
 
         # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
-        # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
+        # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modèle
         # mais il n'est pas dans le formulaire.
         donneesFormulaire = form.save(commit=False)
         donneesFormulaire.user = request.user
