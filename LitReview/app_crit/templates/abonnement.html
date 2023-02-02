@@ -1,47 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Suivre d'autres utilisateurs</h1>
+
+
+<h3 class="idAbonnTitre1">Suivre d'autres utilisateurs</h3>
+
 <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-<h4> User : {{ obj_recup_01 }}<h4>
-<h4> {{ obj_recup_02 }}<h4>
-{% for user in users %}
-    <option value="{{ user.id }}">{{ user.username }}</option>
-{% endfor %}
-
-{{ form.as_p }}
-<button type="submit" class="cl_bouton_envoyer" name="name_bouton_envoyer"> ENVOYER (creat Follows)</button>
+    <div class="cl_abonn_abonner">
+        {% csrf_token %}
+        <h4> {{ obj_recup_02 }}<h4>
+            <div class="cl_abonn_abonner2">
+                 <div class="cl_abonn_user" >
+                {% for user in users %}
+                    <option value="{{ user.id }}"> {{ user.username }}  </option>
+                {% endfor %}
+                {{ form.as_p }}
+                     </div>
+                <button type="submit" class="cl_abonn_bouton_envoyer2" name="name_bouton_envoyer"> ENVOYER</button>
+            </div>
+    </div>
 </form>
 
  <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <form method="post">
-    <div class="mb-4"> <!--  mb-4  -->
-        <h3>Abonnements</h3>
-        <ul class="list-group list-group-flush"> <!-- list-group list-group-flush -->
+    <div class="cl_abonn_desabonnement"> <!--  mb-4  -->
+        <h3 class="idAbonnTitre2">Abonnements</h3>
+        <ul> <!-- list-group list-group-flush -->
             {% for user in request.user.following.all %}
                 <!--  -->
-                <li class="list-group-item">{{ user.followed_user }}
-                    <button class="cl_bouton_desabonner" name="name_bouton_desabonner"
-                            value="{{ user.followed_user.id }}">Se désabonner</button></li>
+                <p class="cl_list_abonn"> <span class="abonn_abonne"> {{ user.followed_user }} </span>
+                    </p>
+                <p>    <button class="cl_bouton_desabonner" name="name_bouton_desabonner"
+                            value="{{ user.followed_user.id }}">Se désabonner</button></p>
+                <p>  </p>
             {% endfor %}
-
         </ul>
     </div>
 </form>
 
-<div class="mb-4">
-    <h3>Abonnés</h3>
-    <div class="follow-list">
+     <form>
+<div class="cl_abonn_liste_abonne">
+    <h3 class="idAbonnTitre3" >Abonnés</h3>
+
     <ul class="list-group list-group-flush">
         {% for user in request.user.followed_by.all %}
-            <li class="list-group-item">{{ user.user }}</li>
+            <p class="list-group-item"> <span class="abonn_abonne"> {{ user.user }} </span> </p>
         {% endfor %}
     </ul>
     </div>
 </div>
+</form>
 
+</div>
+     <img src="{{ STATIC_URL }}app_crit/test.jpg" alt="Image" />
 
 {% endblock %}

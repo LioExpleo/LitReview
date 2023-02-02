@@ -1,13 +1,35 @@
 
-
 #base_title
 {
     text-align: center;
-    color: purple
+    color: purple;
 }
 
-h1, h2, h3 {
-  color: Blue;
+body{
+    font-family:'Times New Roman', Times, serif;
+}
+
+header{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+h1 {
+  color: red;
+}
+h2{
+  color: blue;
+}
+h3 {
+  color: orange;
+}
+h4 {
+  color: orange;
+}
+
+form{
+    display:flex;
+    flex-direction: column;
 }
 
 #log_bloc_connection
@@ -78,12 +100,10 @@ border-radius: 7px
 color: green;
 }
 
-
 .review_form_body{
     margin-left: 40px;
     background-color: yellow;
     color: red;
-
 }
 
 .review_form_rating{
@@ -105,4 +125,57 @@ text-orientation: inherit;
 .review_form_btn{
 position: absolute;
 top: 900px; left: 550px;
+}
+
+.idAbonnTitre1, .idAbonnTitre2, .idAbonnTitre3{
+text-align: center;
+font-size:30px;
+color: green;
+}
+
+.cl_abonn_desabonnement, .cl_abonn_liste_abonne{
+margin:auto;
+}
+
+.cl_abonn_abonner{
+margin:auto;
+}
+.cl_abonn_user{
+position:relative;
+top:36px
+}
+
+.cl_list_abonn{
+position:relative;
+top:39px
+}
+.cl_bouton_desabonner{
+position:relative;
+left:820px
+}
+
+.cl_abonn_bouton_envoyer2{
+position:relative;
+left:300px
+}
+
+.cl_abonn_follow_list{
+display:block;
+height: 20px;
+width: 600px;
+text-align: center;
+}
+
+.abonn_abonne{
+display:block;
+height: 20px;
+width: 800px;
+text-align: center;
+block:center;
+border: 1px solid black;
+}
+
+.cl_bouton_desabonner{
+border: 1px solid black;
+padding: 3px;
 }

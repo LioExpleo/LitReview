@@ -1,6 +1,6 @@
 from .views import indexTicket, indexReview, indexUserFollows
 
-from .views import indexReview, indexTicket, indexUserFollows, indexAbonnement, indexUserFollows2
+from .views import indexReview, indexTicket, indexUserFollows, indexAbonnement
 from django.urls import path
 
 # 1 nom affiché dans l'adresse navigateur

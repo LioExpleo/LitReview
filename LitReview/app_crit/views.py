@@ -15,7 +15,6 @@ from django.shortcuts import (
 )
 
 from django.contrib.auth.models import User
-
 # Pour créer le formulaire, faire l'instanciation sur la classe du formulaire importé ReviewForm
 # indiquer le formulaire sous forme d'un dictionnaire avec {}
 
@@ -54,31 +53,33 @@ def indexReview(request):
 def indexUserFollows(request):
      form = UserFollowsForm(request.POST or None, request.FILES)
      obj_recup_01 = request.user.username
-     obj_recup_02 = ""
+     obj_recup_02 = "******************** Aide saisie *******************"
      boutonVue = 0
      # abonnement avec click sur bouton "ENVOYER" dans html
+     # si requete est post avec le bouton envoyer
      if request.method == 'POST' and "name_bouton_envoyer" in request.POST:
         form = UserFollowsForm(request.POST or None, request.FILES)
 
         # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
         # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modèle
-        # mais il n'est pas dans le formulaire.
+        # mais il n'est pas dans le formulaire, il faut donc le renseigner avec request.user.
         donneesFormulaire = form.save(commit=False)
         donneesFormulaire.user = request.user
         followedUserSelect = donneesFormulaire.followed_user
-
+        # si l'utilisateur sélectionné pour le suivi est différent de l'utilisateur connecté
         if followedUserSelect != donneesFormulaire.user:
             if form.is_valid():
                 try:
                     form.save()
                     form = UserFollowsForm()
-                    obj_recup_02 = "Utilisateur " + str(donneesFormulaire.followed_user) + \
-                                   " ajouté dans la liste des utilisateurs suivis"
+                    obj_recup_02 = " " + str(donneesFormulaire.followed_user) + \
+                                   " ajouté dans les utilisateurs suivis"
                 except:
-                    obj_recup_02 = "Utilisateur " + str(donneesFormulaire.followed_user) + \
-                                   " non selectionnable, vérifier si utilisateur n'est pas déjà suivi"
+                    obj_recup_02 = " " + str(donneesFormulaire.followed_user) + \
+                                   " non sélectionnable, vérifier daans liste si déjà suivi"
+        # si l'utilisateur sélectionné pour le suivi est l'utilisateur connecté
         else :
-            obj_recup_02 = "l'utilisateur connecté ne peut se suivre lui-même"
+            obj_recup_02 = "L'utilisateur" + str(donneesFormulaire.user) + " connecté ne peut se suivre lui-même"
 
      # désabonnement avec click sur bouton "se désabonner" dans html
      if request.method == 'POST' and "name_bouton_desabonner" in request.POST:
@@ -86,52 +87,9 @@ def indexUserFollows(request):
         instance = UserFollows.objects.get(user=request.user, followed_user=request.POST['name_bouton_desabonner'])
         obj_recup_02 = instance.followed_user
         instance.delete()
-        obj_recup_02 = "utilisateur " + str(obj_recup_02) + " désabonné"
-
+        obj_recup_02 = "utilisateur " + str(obj_recup_02) + " vient d'être désabonné"
      return render(request, 'abonnement.html', {'form': form, 'obj_recup_01': obj_recup_01, 'obj_recup_02': obj_recup_02})
 
-
-@login_required
-def indexUserFollows2(request):
-     form = UserFollowsForm(request.POST or None, request.FILES)
-
-     # recup de l'utilisateur connecté
-     obj_recup = request.user.username
-
-     # Si le formulaire est valide
-     if form.is_valid():
-        # obtenir les donnees de forms qui n'ont pas été mises dans le formulaire afin d'y mettre des valeurs
-        # Ici, user doit être indiqué car dans le modèle, et donc dans form issu du modele
-        # mais il n'est pas dans le formulaire.
-
-        donneesFormulaire = form.save(commit=False)
-        donneesFormulaire.user = request.user
-        form.save()
-        form = UserFollowsForm()
-     return render(request, 'extrait/extrCreatUserFollows.html', {'form': form, 'obj_recup': obj_recup})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from app_crit.models import UserFollows
 def indexAbonnement(request):
     #recup de tous les objets de la base de données
 
