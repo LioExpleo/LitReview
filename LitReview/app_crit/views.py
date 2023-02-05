@@ -25,8 +25,8 @@ from django.contrib.auth.models import User
 def indexTicket(request):
      form = TicketForm(request.POST or None, request.FILES) #
      messages = request.user.username
-
      obj_recup_01 = request.user.username
+
      if form.is_valid():
         # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
         # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
@@ -43,11 +43,110 @@ def indexReview(request):
      messages = "enregistrement ok"
      reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
      if form.is_valid():
+        donneesFormulaireReview = form.save(commit=False)
+        donneesFormulaireReview.user = request.user
         form.save()
         form = ReviewForm()
      else :
          messages = "Enregistrement"
      return render(request, 'creatReview.html', {'form': form, 'messages': messages, 'reviews_to_my_tickets': reviews_to_my_tickets} )
+
+
+def indexTicketxxx(request):
+     review_form = ReviewForm()
+     ticket_form = TicketForm()
+     if request.method == 'POST':
+         review_form = forms.ReviewForm(request.POST)
+         ticket_form = forms.TicketForm(request.POST, request.FILES)
+         if review_form.is_valid():
+             if ticket_form.is_valid():
+                messages = request.user.username
+                obj_recup_01 = request.user.username
+     context = {
+        'review_form': review_form,
+        'ticket_form': ticket_form,
+     }
+     return render(request, 'creatTicketReview.html', context=context)
+
+'''
+     form = TicketForm(request.POST or None, request.FILES) #
+     messages = request.user.username
+     obj_recup_01 = request.user.username
+
+     if form.is_valid():
+        pass
+
+        # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
+        # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
+        # mais il n'est pas dans le formulaire.
+        donneesFormulaireTicket = form.save(commit=False)
+        donneesFormulaireTicket.user = request.user
+        #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
+        form.save()
+        form = TicketForm()
+
+     return render(request, 'creatTicketReview.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
+'''
+
+def indexTicketReview(request):
+     review_form = ReviewForm()
+     ticket_form = TicketForm()
+     # si click
+     if request.method == 'POST' or None and "name_ticketReview_bouton_envoyer" in request.POST:
+         ticket_form = TicketForm(request.POST, request.FILES)
+         review_form = ReviewForm(request.POST)
+         if ticket_form.is_valid() and review_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.is_reviewed = True
+            ticket.user = request.user
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+
+            ticket.save()
+            review.save()
+         return redirect('home')
+
+     context = {
+         'ticket_form': ticket_form,
+         'review_form': review_form,
+     }
+     return render (request, 'creatTicketReview.html', context=context)
+'''
+
+     form = TicketForm(request.POST or None, request.FILES) #
+     messages = request.user.username
+     obj_recup_01 = request.user.username
+
+     if form.is_valid():
+        # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
+        # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
+        # mais il n'est pas dans le formulaire.
+        donneesFormulaireTicket = form.save(commit=False)
+        donneesFormulaireTicket.user = request.user
+        #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
+        form.save()
+        form = TicketForm()
+
+     return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
+
+
+     form = ReviewForm(request.POST or None, request.FILES) #
+     messages = request.user.username
+     obj_recup_01 = request.user.username
+
+     if form.is_valid():
+        # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
+        # dans les donnees formulees du formulaire. Ici, user doit être indiqué car dans le modèle,
+        # mais il n'est pas dans le formulaire.
+        donneesFormulaireTicket = form.save(commit=False)
+        donneesFormulaireTicket.user = request.user
+        #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
+        form.save()
+        form = ReviewForm()
+     return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
+
+'''
 
 @login_required
 def indexUserFollows(request):

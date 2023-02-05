@@ -16,14 +16,14 @@
 
 {% block content %}
 
-<h3 class="review_form_mess"> {{message}}</h3>
+<h3 class="review_form_mess"> {{message}} template  extrReview</h3>
 
 
 <h3> {{reviews_to_my_tickets}} </h3>
 
 {% for message in reviews_to_my_tickets %}
         {{message}}
-        <h1>xxxxxxxxxxxxxxxxx</h1>
+        <h1>xxxxxxxxxxxxxxxxx template  CreatTicketReview</h1>
        {% endfor %}
 
 <div class="review_body">
@@ -31,7 +31,7 @@
 <form method="post" enctype="multipart/form-data" id="creat_review">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="review_form_btn"> ENVOYER </button>
+    <button type="submit" class="review_form_btn"> ENVOYER template  extrReview </button>
 
 
 </form>

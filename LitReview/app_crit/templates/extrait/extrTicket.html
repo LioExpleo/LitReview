@@ -1,14 +1,23 @@
+{% load static %}
 
 {% block content %}
 
 <form method="post" enctype="multipart/form-data">
+    <p class="cl_ticket_titre_page">Créer une critiquegggggggg</p>
+    <div class="cl_ticket_body_titre_descr">
     {% csrf_token %}
+    <p class="cl_ticket_titre">Titre</p>
+    <p class="cl_ticket_description">Description template  extrticket</p>
+        <p class="cl_ticket_image">Image template  extrticket</p>
     {{ form.as_p }}
-    <button type="submit"> ENVOYER</button>
+    </div>
+
+    <button class="cl_ticket_btn_envoi" type="submit"> ENVOYER template  extrticket</button>
 </form>
 
-    <h5> USER TICKET : {{ messages }}</h5>
-    <!--
+ <!--
+    <h5> USER TICKET : {{ messages }} </h5>
+
     <h1> Récupération des utilisateurs : {{ request.user.username }}</h1>
     -->
 {% endblock %}

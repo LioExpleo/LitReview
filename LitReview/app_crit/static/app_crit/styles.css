@@ -15,16 +15,16 @@ header{
 }
 
 h1 {
-  color: red;
+  color: green;
 }
 h2{
   color: blue;
 }
 h3 {
-  color: orange;
+  color: pink;
 }
 h4 {
-  color: orange;
+  color: #FF8F00;
 }
 
 form{
@@ -97,12 +97,12 @@ border-radius: 7px
 
 .review_form_headline
 {
-color: green;
+color: pink;
 }
 
 .review_form_body{
     margin-left: 40px;
-    background-color: yellow;
+    background-color: blue;
     color: red;
 }
 
@@ -178,4 +178,55 @@ border: 1px solid black;
 .cl_bouton_desabonner{
 border: 1px solid black;
 padding: 3px;
+}
+
+
+.cl_ticket_titre{
+margin: auto;
+text-align: center;
+position:relative;
+top:90
+}
+
+.cl_ticket_form_title{
+margin: auto;
+text-align: center;
+display:block;
+height: 20px;
+width: 800px;
+position: relative;
+top:0
+
+}
+
+.cl_ticket_form_description{
+margin: auto;
+display:block;
+height: 200px;
+width: 800px;
+position: relative;
+top:20
+}
+
+.cl_ticket_description{
+margin: center;
+text-align: left;
+
+position: relative;
+top:135;
+left:700;
+}
+
+.cl_ticket_image{
+position:relative;
+top:300;
+left:10;
+}
+
+.cl_ticket_btn_envoi{
+display:block;
+height: 20px;
+width: 80px;
+position:relative;
+left:70%;
 }

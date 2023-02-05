@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="review">
+
+<form method="post" enctype="multipart/form-data" class="cl_ticket_Review">
+     <div class="cl_ticket">
+        <h3 class="cl_tr_titre_ticket">Livre/Article template  CreatTicketReview</h3>
+        {% include "extrait/extrTicketForm.html" %}
+    </div>
+
+    <h3>Critique template  CreatTicketReview</h3>
+        {% include "extrait/extrReviewForm.html" %}
+        <button type="submit" class="cl_ticketReview_bouton_envoyer" name="name_ticketReview_bouton_envoyer" >Envoyer template  CreatTicketReview</button>
+
+</form>
+{% endblock %}

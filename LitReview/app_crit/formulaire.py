@@ -23,18 +23,17 @@ class TicketForm(ModelForm):
 
         #enctype = "multipart/form-data"
 
-        #labels = {"title": "Titre", "description": "Description", "image": "Image" }
-
+        labels = {"title": "", "description": "", "image": "" }
 
         widgets = {
                 'title': forms.TextInput(
                     attrs={
-                        'class': 'ticket_form_title'
+                        'class': 'cl_ticket_form_title'
                     }
                 ),
                 'description': forms.Textarea(
                     attrs={
-                        'class': 'ticket_form_description'
+                        'class': 'cl_ticket_form_description'
                     }
                 ),
             
@@ -49,7 +48,7 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
 
-        fields = ['ticket','rating', 'user', 'headline', 'body']
+        fields = ['rating', 'headline', 'body']
         # enctype = "multipart/form-data"
 
         widgets ={

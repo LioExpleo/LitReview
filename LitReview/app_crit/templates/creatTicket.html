@@ -1,11 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!--
+ <style>
+      body {
+        color: blue;
+        font-family: arial;
+      }
+      p {
+        color: red;
+        font-weight: bold;
+      }
+      h2{
+      color:green;
+      }
+    </style>
+-->
 
+<p class="cl_ctr_titre1"> <h2 >Créer une critique creatTicket.html</h2> </p>
+
+<!-- formulaire -->
 <form method="post" enctype="multipart/form-data" class="ticket">
-
     {% include "extrait/extrTicket.html" %}
-
 </form>
+<!-- fin formulaire -->
 
 {% endblock %}
+
