@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="double-button">
+        <a href="{% url 'ticket_create' %}" class="button-type">Demander une critique</a>
+        <a href="{% url 'review_and_ticket_create' %}" class="button-type">Créer une critique</a>
+    </div>
+    {% for instance in tickets_and_reviews %}
+        {% if instance|model_type == 'Ticket' %}
+            <div class="ticket">
+                {% include "blog/partials/ticket_view_snippet.html" with ticket=instance %}
+                {% if not instance.is_reviewed %}
+                    <a href="{% url 'review_specific_ticket_create' instance.id %}" class="button-type">Créer une critique</a>
+                <a href="{% url 'ticket_delete' ticket.id %}">Supprimer</a>
+                {% endif %}
+            </div>
+        {% elif instance|model_type == 'Review' %}
+            <div class="review">
+                {% include "blog/partials/review_view_snippet.html" with review=instance ticket=instance.ticket %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}
+

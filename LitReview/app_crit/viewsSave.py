@@ -263,43 +263,17 @@ def indexAbonnement(request):
 def viewsPosts(request):
     reviews_user = Review.objects.filter(user=request.user)
     tickets_user = Ticket.objects.filter(user=request.user)
+    #tickets_and_reviews = sorted(
+    #    chain(tickets, reviews),
+    #    key=lambda instance: instancews  .time_created,
+    #    reverse=True)
 
-    if request.method == 'POST' and "name_post_review_bouton_supprimer" in request.POST:
-        review = get_instance(request, models.Review, review_id)
-        return render(request, 'review_delete.html', context=context)
-
-    if request.method == 'POST' and "name_post_review_bouton_modifier" in request.POST:
-        review = get_instance(request, models.Review, review_id)
-        return render(request, 'review_update.html', context=context)
-
-    tickets_and_reviews = sorted(
-        chain(tickets_user, reviews_user),
-        key=lambda instance: instance.time_created,
-        reverse=True)
     context = {
-        'reviews_user': reviews_user,
         'tickets_user': tickets_user,
+        'reviews_user': reviews_user,
+
     }
-
     return render(request, 'posts.html', context=context)
-
-
-
-@login_required
-def review_delete(request, id):
-    #review = Review.objects.get(id=id)
-    review = Review.objects.get(id= id)
-
-    if request.method == 'POST':
-        review.delete()
-        return redirect('posts')
-    return render(request, 'review_delete.html', {'review': review})
-
-@login_required
-def review_update(request, id):
-    review = Review.objects.get(id=id)
-    form = ReviewForm(instance=review)
-    return render(request, 'review_update.html', {'form': form})
 
 '''
 def indexDeleteTicket(request):

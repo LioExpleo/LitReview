@@ -19,7 +19,7 @@ def home(request):
 	context ={
 	'home': UserModel.objects.all()
 	}
-	return render(request, 'home.html',context)
+	return render(request, 'flux.html',context)
 
 
 def register(request):
