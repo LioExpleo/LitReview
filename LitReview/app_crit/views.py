@@ -309,11 +309,9 @@ def review_update(request, id):
         if form.is_valid():
             form.save() # force_update=True
             return redirect('posts')
-            #return redirect('review_update', review.id)
         else:
-            form = ReviewForm(instance=band)
-
-        return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
+            form = ReviewForm(instance=review)
+        #return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
     return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
 
 '''
