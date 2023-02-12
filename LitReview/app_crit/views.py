@@ -295,11 +295,26 @@ def review_delete(request, id):
         return redirect('posts')
     return render(request, 'review_delete.html', {'review': review})
 
+
+# Création de la vue update
 @login_required
 def review_update(request, id):
     review = Review.objects.get(id=id)
-    form = ReviewForm(instance=review)
-    return render(request, 'review_update.html', {'form': form})
+    form = ReviewForm(instance=review)  # rempli le formulaire avec
+                                        # les valeurs existantes correspondant à l'enregistrement
+
+    #form = ReviewForm(request.POST, instance=review)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save() # force_update=True
+            return redirect('posts')
+            #return redirect('review_update', review.id)
+        else:
+            form = ReviewForm(instance=band)
+
+        return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
+    return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
 
 '''
 def indexDeleteTicket(request):

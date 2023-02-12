@@ -8,17 +8,14 @@
         <p>{{ x }}</p>
         <p>{{ x.time_created }}</p>
         <p>{{ x.id }}</p>
-        <h3> {{ x.title }}</h3>
+        <h3> {{ x.ticket }}</h3>
+        <p>{{ x.rating }}</p>
         <p>{{ x.user }}</p>
-        <p>{{ x.image }}</p>
-        <p>{{ instance }}</p>
-
-
+        <p>{{ x.headline }}</p>
+        <p>{{ x.body }}</p>
         </div>
         <a href="{% url 'review_delete' x.id %}">Supprimer</a>
-
-        <button type="submit" class="cl_post_review_bouton_modifier" name="name_post_review_bouton_modifier">Modifier</button>
-        <button type="submit" class="cl_post_review_bouton_supprimer" name = "name_post_review_bouton_supprimer">Supprimer</button>
+        <a href="{% url 'review_update' x.id %}">[Modifier]</a>
     </div>
     {% endfor %}
 </div>
