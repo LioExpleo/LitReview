@@ -42,9 +42,13 @@ class TicketForm(ModelForm):
 class ReviewForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser
     # pour le formulaire
-
     # Le modèle Review doit être utilisé pour créer le formulaire
     # Précision des champs uniquement utiles du modèle à utiliser dans le formulaire ensuite
+    rating = forms.IntegerField(
+        widget=forms.RadioSelect(
+            choices=((i, i) for i in range(0, 6))
+        )
+    )
     class Meta:
         model = Review
 
@@ -62,15 +66,16 @@ class ReviewForm(ModelForm):
                     'class': 'review_form_body'
                 }
                 ),
-                'rating': forms.RadioSelect(
+
+        }
+'''
+ 'rating': forms.RadioSelect(
                 choices=CHOICES_REVIEW_FORM,
                 attrs={
-
                     'class': 'review_form_rating'
                 }
             ),
-        }
-
+'''
 class UserFollowsForm(ModelForm):
     # Une class meta est une classe qui utilise une classe, cela va indiquer à django quelle classe utiliser
     # pour le formulaire
@@ -84,14 +89,6 @@ class UserFollowsForm(ModelForm):
 
         labels = {"followed_user": "followed_user" }
 
-'''
-        widgets ={
-                'followsUser': forms.Textarea(
-                attrs={
-                    'class': 'UserFollows_form_followsUser'
-                }
-                )
-        }
-'''
+
 
 

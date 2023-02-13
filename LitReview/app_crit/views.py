@@ -287,7 +287,6 @@ def viewsPosts(request):
 
 @login_required
 def review_delete(request, id):
-    #review = Review.objects.get(id=id)
     review = Review.objects.get(id= id)
 
     if request.method == 'POST':
@@ -302,6 +301,16 @@ def review_update(request, id):
     review = Review.objects.get(id=id)
     form = ReviewForm(instance=review)  # rempli le formulaire avec
                                         # les valeurs existantes correspondant à l'enregistrement
+    reviewTicket = review.ticket
+    reviewRating = review.rating
+    reviewHeadline = review.headline
+    reviewBody = review.body
+    reviewRating_0=10
+    reviewRating_1=11
+    reviewRating_2=12
+    reviewRating_3=13
+    reviewRating_4=14
+    reviewRating_5=15
 
     #form = ReviewForm(request.POST, instance=review)
     if request.method == 'POST':
@@ -311,22 +320,50 @@ def review_update(request, id):
             return redirect('posts')
         else:
             form = ReviewForm(instance=review)
-        #return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
-    return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
 
-'''
-def indexDeleteTicket(request):
+        #return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
+    context = {
+        'form': form,
+        'reviewTicket': reviewTicket,
+        'reviewRating': reviewRating,
+        'reviewHeadline': reviewHeadline,
+        'reviewBody': reviewBody,
+        'reviewRating_0': reviewRating_0,
+        'reviewRating_1': reviewRating_1,
+        'reviewRating_2': reviewRating_2,
+        'reviewRating_3': reviewRating_3,
+        'reviewRating_4': reviewRating_4,
+        'reviewRating_5': reviewRating_5,
+    }
+    return render(request, 'review_update.html', context=context) # le formulaire est généré dans le modèle
+
+@login_required
+def ticket_delete(request, id):
+    ticket = Ticket.objects.get(id= id)
 
     if request.method == 'POST':
-        obj_recup_01 = ""
-        try:
-            record = Ticket.objects.get(id = 25)
-            record.delete()
-            obj_recup_01 = "delete ok"
+        ticket.delete()
+        return redirect('posts')
+    return render(request, 'ticket_delete.html', {'ticket': ticket})
 
-        except:
-            obj_recup_01 = "objet non trouvé "
-'''
+@login_required
+def ticket_update(request, id):
+    ticket = Ticket.objects.get(id=id)
+    form = TicketForm(instance=ticket)  # rempli le formulaire avec
+                                        # les valeurs existantes correspondant à l'enregistrement
+    ticketTitle = ticket.title
 
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save() # force_update=True
+            return redirect('posts')
+        else:
+            form = TicketForm(instance=ticket)
 
-
+        #return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
+    context = {
+        'form': form,
+        'ticketTitle': ticketTitle,
+    }
+    return render(request, 'ticket_update.html', context=context) # le formulaire est généré dans le modèle

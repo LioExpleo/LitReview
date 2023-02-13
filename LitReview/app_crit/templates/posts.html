@@ -5,17 +5,19 @@
 <div class="cl_post_review">
     {% for x in reviews_user %}
     <div class="review_information">
-        <p>{{ x }}</p>
-        <p>{{ x.time_created }}</p>
-        <p>{{ x.id }}</p>
-        <h3> {{ x.ticket }}</h3>
-        <p>{{ x.rating }}</p>
-        <p>{{ x.user }}</p>
-        <p>{{ x.headline }}</p>
-        <p>{{ x.body }}</p>
+        <p> Review : {{ x }}</p>
+        <p> Review date création : {{ x.time_created }}</p>
+        <p> Identifiant Unique : {{ x.id }}</p>
+        <h3> Ticket associé : {{ x.ticket }}</h3>
+        <p> Note attribuée : {{ x.rating }}</p>
+        <p> Utilisateur : {{ x.user }}</p>
+        <p> Entête : {{ x.headline }}</p>
+        <p> Contenu : {{ x.body }}</p>
         </div>
-        <a href="{% url 'review_delete' x.id %}">Supprimer</a>
+        <br>
         <a href="{% url 'review_update' x.id %}">[Modifier]</a>
+        <br>
+        <a href="{% url 'review_delete' x.id %}">[Supprimer]</a>
     </div>
     {% endfor %}
 </div>
@@ -23,12 +25,17 @@
 <div class="cl_post_ticket">
     {% for x in tickets_user %}
     <div class="ticket_information">
-        <p>{{ x }}</p>
-        <p>{{ x.time_created }}</p>
-        <p>{{ x.id }}</p>
-        <h3> {{ x.title }}</h3>
-        <p>{{ x.user }}</p>
-        <p>{{ x.image }}</p>
+        <p>Ticket : {{ x }}</p>
+        <p> Ticket date création : {{ x.time_created }}</p>
+        <p> Identifiant Unique : {{ x.id }}</p>
+        <h3> Titre Ticket {{ x.title }}</h3>
+        <p> Utlisateur : {{ x.user }}</p>
+        <p> Image : {{ x.image }}</p>
+
+        <br>
+        <a href="{% url 'ticket_update' x.id %}">[Modifier]</a>
+        <br>
+        <a href="{% url 'ticket_delete' x.id %}">[Supprimer]</a>
         <button type="submit" class="cl_post_ticket_bouton_modifier" name=name_post_ticket_bouton_modifier" = >Modifier</button>
         <button type="submit" class="cl_post_ticket_bouton_supprimer" name= "name_post_ticket_bouton_supprimer" =>Supprimer</button>
     </div>
