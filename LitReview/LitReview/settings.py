@@ -128,5 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 
-
-
+#url par lequel django va chercher les fichiers téléchargés
+MEDIA_URL = '/media/'
+#repertoire où django doit sauvegarder les images televersees
+MEDIA_ROOT = BASE_DIR.joinpath('media/')

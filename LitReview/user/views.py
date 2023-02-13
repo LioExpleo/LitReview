@@ -31,7 +31,7 @@ def register(request):
 			password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=password)
 			login(request,user)
-			messages.success(request, f'Coucou {username}, Votre compte a été créé avec succès !')
+			messages.success(request, f'Bienvenu {username}, Votre compte a été créé avec succès !')
 			return redirect('home')
 	else:
 		form = UserCreationForm()

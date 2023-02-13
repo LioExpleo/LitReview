@@ -3,6 +3,8 @@
 {% block content %}
 <form method="post">
 <div class="cl_post_review">
+    {% for instance in tickets_and_reviews %}
+
     {% for x in reviews_user %}
     <div class="review_information">
         <p> Review : {{ x }}</p>
@@ -30,17 +32,20 @@
         <p> Identifiant Unique : {{ x.id }}</p>
         <h3> Titre Ticket {{ x.title }}</h3>
         <p> Utlisateur : {{ x.user }}</p>
+        <br>
         <p> Image : {{ x.image }}</p>
+        <img src="{{ x.image.url }}">
 
         <br>
         <a href="{% url 'ticket_update' x.id %}">[Modifier]</a>
         <br>
         <a href="{% url 'ticket_delete' x.id %}">[Supprimer]</a>
-        <button type="submit" class="cl_post_ticket_bouton_modifier" name=name_post_ticket_bouton_modifier" = >Modifier</button>
-        <button type="submit" class="cl_post_ticket_bouton_supprimer" name= "name_post_ticket_bouton_supprimer" =>Supprimer</button>
+
     </div>
     </form>
     {% endfor %}
+
+{% endfor %}
 </div>
 
 
