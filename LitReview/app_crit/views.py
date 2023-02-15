@@ -205,7 +205,8 @@ def indexAbonnement(request):
 def viewsPosts(request):
     reviews_user = Review.objects.filter(user=request.user)
     tickets_user = Ticket.objects.filter(user=request.user)
-
+    tickets_other_user_0 = Ticket.objects.all()
+    tickets_other_user = tickets_other_user_0.exclude(user=request.user)
 
     if request.method == 'POST' and "name_post_review_bouton_supprimer" in request.POST:
         review = get_instance(request, models.Review, review_id)
@@ -225,7 +226,9 @@ def viewsPosts(request):
     context = {
         'reviews_user': reviews_user,
         'tickets_user': tickets_user,
-        'tickets_and_reviews': tickets_and_reviews
+        'tickets_and_reviews': tickets_and_reviews,
+        'tickets_other_user': tickets_other_user,
+
     }
 
     return render(request, 'posts.html', context=context)
