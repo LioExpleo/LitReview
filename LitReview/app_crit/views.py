@@ -206,6 +206,7 @@ def viewsPosts(request):
     reviews_user = Review.objects.filter(user=request.user)
     tickets_user = Ticket.objects.filter(user=request.user)
 
+
     if request.method == 'POST' and "name_post_review_bouton_supprimer" in request.POST:
         review = get_instance(request, models.Review, review_id)
         return render(request, 'review_delete.html', context=context)
@@ -215,10 +216,12 @@ def viewsPosts(request):
         return render(request, 'review_update.html', context=context)
 
     # chain transforme les 2 dict en un, ce qui permettra d'itérer sur les 2 de façon non séparée
+
     tickets_and_reviews = sorted(
         chain(tickets_user, reviews_user),
         key=lambda instance: instance.time_created,
         reverse=True)
+
     context = {
         'reviews_user': reviews_user,
         'tickets_user': tickets_user,

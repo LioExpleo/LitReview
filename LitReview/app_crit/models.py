@@ -27,4 +27,3 @@ class UserFollows(models.Model):
 
 
 
-

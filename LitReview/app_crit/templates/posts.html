@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <div class="cl_post_review">
-    <!-- -->
-    {% for instance in tickets_and_reviews %}
 
     {% for x in reviews_user %}
     <div class="review_information">
@@ -33,9 +31,13 @@
         <p> Identifiant Unique : {{ x.id }}</p>
         <h3> Titre Ticket {{ x.title }}</h3>
         <p> Utlisateur : {{ x.user }}</p>
-        <br>
-        <p> Image : {{ x.image }}</p>
-        <img src="{{ x.image.url }}">
+
+        <p> Imagexx : {{x.image |lower }}</p>
+         {% if x.image.url is not None %}
+            <img src="{{ x.image.url }}">
+         {% endif %}
+
+
 
         <br>
         <a href="{% url 'ticket_update' x.id %}">[Modifier]</a>
@@ -43,11 +45,11 @@
         <a href="{% url 'ticket_delete' x.id %}">[Supprimer]</a>
 
     </div>
-    </form>
     {% endfor %}
-
-{% endfor %}
 </div>
+</form>
+
+
 
 
 
