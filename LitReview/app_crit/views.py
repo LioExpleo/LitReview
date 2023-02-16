@@ -200,11 +200,50 @@ def indexAbonnement(request):
     # X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
 
     # context = { indexReview()}
-
+import copy
 #@login_required
 def viewsPosts(request):
     reviews_user = Review.objects.filter(user=request.user)
     tickets_user = Ticket.objects.filter(user=request.user)
+
+    # liste de tickets dans tous mes reviews
+    listTicketInReviews_user = []
+    listTicketInTicket_user = []
+    listTicketWithoutReviews_user = []
+    supPop=''
+
+    allReviews = Review.objects.all()
+    # liste de tous les tickets dans Review de l'utilisateur, pas tous les reviews
+    for ticketReview in reviews_user:
+        ticketInReview_user = ticketReview.ticket.id
+        listTicketInReviews_user.append(ticketInReview_user)
+
+    # liste de tous les id (tickets) dans ticket de l'utilisateur
+    for idTicket in tickets_user:
+        x = idTicket.id
+        listTicketInTicket_user.append(x)
+
+    # liste de tous les tickets qui n'ont pas de review utilisateur
+    # on prend la liste de tous les tickets, et on supprime ceux qui se retrouvent dans review avec pop
+    # avec = les 2 listes sont liées
+    listTicketInTicket_user_pour_html = [i for i in listTicketInTicket_user]
+    listTicketWithoutReviews_user = listTicketInTicket_user
+    #listTicketWithoutReviews_user = [i for i in listTicketInTicket_user]
+    index1 = 0
+    for x in listTicketInTicket_user:
+
+        idTicketTicket = listTicketInTicket_user[index1]
+        index2 = 0
+        for y in listTicketInReviews_user:
+            idTicketInReview = listTicketInReviews_user[index2]
+            if idTicketTicket == idTicketInReview:
+                listTicketWithoutReviews_user.pop(index1)
+            index2 += 1
+        index1 += 1
+
+
+    #tickets_user_whithout_review = tickets_user
+
     tickets_other_user_0 = Ticket.objects.all()
     tickets_other_user = tickets_other_user_0.exclude(user=request.user)
 
@@ -228,9 +267,12 @@ def viewsPosts(request):
         'tickets_user': tickets_user,
         'tickets_and_reviews': tickets_and_reviews,
         'tickets_other_user': tickets_other_user,
-
+        'allReviews': allReviews,
+        'listTicketInReviews_user': listTicketInReviews_user,
+        'listTicketInTicket_user': listTicketInTicket_user,
+        'listTicketWithoutReviews_user': listTicketWithoutReviews_user,
+        'listTicketInTicket_user_pour_html': listTicketInTicket_user_pour_html,
     }
-
     return render(request, 'posts.html', context=context)
 
 

@@ -9,6 +9,16 @@
     {% endfor %}
     -->
 
+    <p> <h3>allReviews :  {{ allReviews }} </h3>  </p>
+    <p> <h3>listTicketInReviews_user :  {{ listTicketInReviews_user }} </h3>  </p>
+    <p> <h3>listTicketInTicket_user_html :  {{ listTicketInTicket_user_pour_html }} </h3>  </p>
+    <p> <h3>listTicketWithoutReviews_user :  {{ listTicketWithoutReviews_user }} </h3>  </p>
+
+    <p> la liste listTicketWithoutReviews_user, indique quel tickets seront à afficher sans Review </p>
+
+
+
+
 {% for instance in tickets_and_reviews %}
      {% for instReview in reviews_user %}
         <div class="cl_post_review">
