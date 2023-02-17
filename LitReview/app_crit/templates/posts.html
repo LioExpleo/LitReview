@@ -17,8 +17,6 @@
     <p> la liste listTicketWithoutReviews_user, indique quel tickets seront à afficher sans Review </p>
 
 
-
-
 {% for instance in tickets_and_reviews %}
      {% for instReview in reviews_user %}
         <div class="cl_post_review">
@@ -73,78 +71,47 @@
                         {% if instTicket.image.url is not None %}
                             <img src="{{ instTicket.image.url }}">
                         {% endif %}
-                     <br>
-                <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
-                <br>
-                <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
+                    <br>
+                    <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
+                    <br>
+                    <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
                 <p> **************** FIN REVIEW + TICKET AVEC MEME UTILISATEUR EN CREATEUR DU TICKET ****************</p>
 
                     {% endif %}
             {% endfor %}
+    {% endfor %}
+
+<p> **************************************</p>
+<p> **************************************</p>
+<p> **************************************</p>
+
+       {% for i in listTicketWithoutReviews_user %}
+              {% if instance.id == i %}
+                 <p> instance.ID =  i , ticket de soi-même à afficher seul car pas de Review pour le ticket </p>
+
+                {% for instTicket in tickets_user %}
+                    {% if instance.id == instTicket.id %}
+                        <p>{{ instTicket.id }}</p>
+                        <p>{{ instTicket.time_created  }}</p>
+                        <p> Titre {{ instTicket.title }}</p>
+                        <p>{{ instTicket.description }}</p>
+                        {% if instTicket.image.url is not None %}
+                            <img src="{{ instTicket.image.url }}">
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+              {% endif %}
+       {% endfor %}
+
+<p> **************************************</p>
+<p> **************************************</p>
+<p> **************************************</p>
+</div>
+
 {% endfor %}
 
-<p> **************************************</p>
-<p> **************************************</p>
-<p> **************************************</p>
-
-
-
-            <div class="cl_post_review">
-    <p> tickets_and_reviews : {{ tickets_and_reviews }}</p>
-
-    <!-- le titre dans le review étabt absent -->
-    {% for instReview in reviews_user %}
-    <div class="review_information">
-
-        <div class="cl_post_review">
-        <p>Vous avez publié une critique</p>
-        <p>{{ instance.time_created }}</p>
-        </div>
-
-        <p> Review : {{ instReview }} <h2/> REVIEW {{ instReview.id }} </h2> </p>
-        <p> Review : {{ instReview }}</p>
-        <p> Review date création : {{ instReview.time_created }}</p>
-        <p> Identifiant Unique : {{ instReview.id }}</p>
-        <h3> Ticket associé : {{ instReview.ticket }}</h3>
-        <p> Note attribuée : {{ instReview.rating }}</p>
-        <p> Utilisateur : {{ instReview.user }}</p>
-        <p> Entête : {{ instReview.headline }}</p>
-        <p> Contenu : {{ instReview.body }}</p>
-        </div>
-        <br>
-        <a href="{% url 'review_update' instReview.id %}">[Modifier]</a>
-        <br>
-        <a href="{% url 'review_delete' instReview.id %}">[Supprimer]</a>
-    </div>
-    {% endfor %}
-</div>
-
-
-<div class="cl_post_ticket">
-    {% for x in tickets_user %}
-
-    <div class="ticket_information">
-        <p> Review : {{ instance }} <h2/> TICKET {{ x.id }} </h2>  </p>
-        <p>Ticket : {{ x }}</p>
-        <p> Ticket date création : {{ x.time_created }}</p>
-        <p> Identifiant Unique : {{ x.id }}</p>
-        <h3> Titre Ticket {{ x.title }}</h3>
-        <p> Utlisateur : {{ x.user }}</p>
-        <p> Imagexx : {{x.image |lower }}</p>
-         {% if x.image.url is not None %}
-            <img src="{{ x.image.url }}">
-         {% endif %}
-
-        <br>
-        <a href="{% url 'ticket_update' x.id %}">[Modifier]</a>
-        <br>
-        <a href="{% url 'ticket_delete' x.id %}">[Supprimer]</a>
-
-    </div>
-    {% endfor %}
-</div>
 </form>
-{% endfor %}
+
 {% endblock %}
 
 

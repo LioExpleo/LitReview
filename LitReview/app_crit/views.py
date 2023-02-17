@@ -200,7 +200,7 @@ def indexAbonnement(request):
     # X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
 
     # context = { indexReview()}
-import copy
+
 #@login_required
 def viewsPosts(request):
     reviews_user = Review.objects.filter(user=request.user)
@@ -274,8 +274,6 @@ def viewsPosts(request):
         'listTicketInTicket_user_pour_html': listTicketInTicket_user_pour_html,
     }
     return render(request, 'posts.html', context=context)
-
-
 
 @login_required
 def review_delete(request, id):
