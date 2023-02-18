@@ -18,7 +18,11 @@
 
 
 {% for instance in tickets_and_reviews %}
+
      {% for instReview in reviews_user %}
+
+        {% if instance.id == instReview.id %}
+
         <div class="cl_post_review">
             <p> Review : {{ instReview }} <h2/> REVIEW {{ instReview.id }} </h2> </p>
             <p>Vous avez publié une critique</p>
@@ -27,9 +31,9 @@
             <p> rating : {{ instReview.rating }}</p>
             <p> headline : {{ instReview.headline }}</p>
             <p> body : {{ instReview.body }}</p>
-            <p> ------------------------Review------------------------------</p>
+            <p> <h4> n° TICKET REVIEW : {{ instReview.ticket.id }}</p> </h4>
 
-            <p> n° TICKET REVIEW : {{ instReview.ticket.id }}</p>
+            <p> ------------------------Review------------------------------</p>
             {% for instTicketOther in tickets_other_user %}
             <!-- <p> TICKET AUTRE UTILISATEUR : {{ instTicketOther.id }}</p> -->
 
@@ -37,8 +41,8 @@
             à la suite-->
                 {% if instReview.ticket.id == instTicketOther.id %}
                     <p> REVIEW avec TICKET AUTRE UTILISATEUR n° ticket : {{ instReview.ticket.id }}</p>
-                    <p> <h3>instTicket.user :  {{ instTicketOther.user }} </h3>  </p>
-                    <p> <h3>instTicket.id :  {{ instTicketOther.id }} </h3>  </p>
+                    <p> <h4> instTicket.id :  {{ instTicketOther.id }} </h4>  </p>
+                    <p> instTicket.user :  {{ instTicketOther.user }}   </p>
                     <p> Identifiant Unique : {{ instTicketOther.id }}</p>
                     <p> Titre Ticket : {{ instTicketOther.title }}</p>
                     <p> Description Ticket : {{ instTicketOther.title }}</p>
@@ -47,23 +51,22 @@
                         <img src="{{ instTicketOther.image.url }}">
                     {% endif %}
 
-
+                    <br>
+                             <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
+                            <br>
+                            <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
+                    <p> **************** FIN REVIEW + TICKET AVEC AUTRE UTILISATEUR CREATEUR DU TICKET ****************</p>
+                    <p> ***********************************************************************************************</p>
                 {% endif %}
              {% endfor %}
-            <br>
-                     <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
-                    <br>
-                    <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
-            <p> **************** FIN REVIEW + TICKET AVEC AUTRE UTILISATEUR CREATEUR DU TICKET ****************</p>
 
      <!-- Les critiques qui sont affichées en réponse au ticket de l'utilisateur lui-même doivent être
      listées séparément du ticket-->
-
              {% for instTicket in tickets_user %}
                      <!-- <p> instTicket.id : {{ instTicket.id }}</p>-->
                     {% if instReview.ticket.id == instTicket.id %}
-                        <p> <h3>instTicket.id :  {{ instTicket.id }} </h3>  </p>
-                        <p> <h3>instTicket.user :  {{ instTicket.user }} </h3>  </p>
+                        <p> <h4>instTicket.id :  {{ instTicket.id }} </h4>  </p>
+                        <p> instTicket.user :  {{ instTicket.user }}  </p>
                         <p> Identifiant Unique : {{ instTicket.id }}</p>
                         <p> Titre Ticket : {{ instTicket.title }}</p>
                         <p> Description Ticket : {{ instTicket.title }}</p>
@@ -76,14 +79,11 @@
                     <br>
                     <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
                 <p> **************** FIN REVIEW + TICKET AVEC MEME UTILISATEUR EN CREATEUR DU TICKET ****************</p>
-
+                <p> *************************************************************************************************</p>
                     {% endif %}
             {% endfor %}
-    {% endfor %}
-
-<p> **************************************</p>
-<p> **************************************</p>
-<p> **************************************</p>
+            {% endif %}
+        {% endfor %}
 
        {% for i in listTicketWithoutReviews_user %}
               {% if instance.id == i %}
@@ -91,21 +91,19 @@
 
                 {% for instTicket in tickets_user %}
                     {% if instance.id == instTicket.id %}
-                        <p>{{ instTicket.id }}</p>
+                        <p> **************** debut du ticket sans Review ****************</p>
+                        <p> <h4> instTicket.id : {{ instTicket.id }} </h4></p>
                         <p>{{ instTicket.time_created  }}</p>
                         <p> Titre {{ instTicket.title }}</p>
                         <p>{{ instTicket.description }}</p>
                         {% if instTicket.image.url is not None %}
                             <img src="{{ instTicket.image.url }}">
                         {% endif %}
+                         <p> **************** fin du ticket sans Review ****************</p>
                     {% endif %}
                 {% endfor %}
               {% endif %}
        {% endfor %}
-
-<p> **************************************</p>
-<p> **************************************</p>
-<p> **************************************</p>
 </div>
 
 {% endfor %}
