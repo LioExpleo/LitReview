@@ -221,7 +221,6 @@ def viewsPosts(request):
     for i in reviews_user:
         listReview_user.append(i)
 
-
     allReviews = Review.objects.all()
     # liste de tous les tickets dans Review de l'utilisateur, pas tous les reviews
     for ticketReview in reviews_user:
@@ -234,11 +233,6 @@ def viewsPosts(request):
         listTicketInTicket_user.append(TicketInTicket_user)
         listTicket_user.append(TicketInTicket_user)
 
-
-
-    # liste de tous les review (tickets)
-
-
     # liste de tous les tickets qui n'ont pas de review utilisateur
     # on prend la liste de tous les tickets, et on supprime ceux qui se retrouvent dans review avec pop
     # (avec utilisation de =, les 2 listes sont liées)
@@ -246,18 +240,13 @@ def viewsPosts(request):
     #listTicketWithoutReviews_user = list(listTicketInTicket_user)
     listTicketWithoutReviews_user = [i for i in listTicketInTicket_user]
 
-    boucleFor_nbr_ticket = 0
-
-    a = ""
-    b = ""
-
     # La 1ere boucle teste tous les tickets
     index1 = 0
-    indexDecal = 0 # Décalage pour prendre en compte la diminution de la liste dans l'index
+    popTicket = 0 # Décalage pour prendre en compte la diminution de la liste dans l'index
+    pop = False
     longList = len(listTicketInTicket_user)
 
-    for i in listTicketInTicket_user:
-        boucleFor_nbr_ticket +=1
+    for i in listTicket_user:
     #for x in listReview_user:
         idTicketTicket = listTicketInTicket_user[index1]
         #La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
@@ -265,22 +254,18 @@ def viewsPosts(request):
         # à la fin des boucles, ne resteront que les tickets sans Review
         boucleFor_nbr_review = 0
         index2 = 0
-        #for y in listTicketInReviews_user:
+        # Si suppression d'un élément de la liste, prise en compte avec popTicket qui indique le nombre de suppression
+        # de ticket de la liste. listTicketWithoutReviews_user et listTicketInReviews_user sont liés.
         for j in listTicketInReviews_user:
             boucleFor_nbr_review += 1
-
             idTicketInReview = listTicketInReviews_user[index2]
-            a = idTicketTicket
-            b = idTicketInReview
-
             if str(idTicketTicket) == str(idTicketInReview):
-                listTicketWithoutReviews_user.pop(index1 - indexDecal)
-                indexDecal += 1
+                listTicketWithoutReviews_user.pop(index1 - popTicket)
+                popTicket += 1
+                pop = True
                 pass
             index2 += 1
         index1 += 1
-
-
 
     # pour récupérer les tickets uniquement des autres utilisateurs,
     # récupérer tous les tickets et exclure ceux de l'utilisateur
@@ -312,14 +297,6 @@ def viewsPosts(request):
         'listTicketInTicket_user': listTicketInTicket_user,
         'listTicketWithoutReviews_user': listTicketWithoutReviews_user,
         'listTicket_user': listTicket_user,
-        'boucleFor_nbr_ticket': boucleFor_nbr_ticket,
-        'boucleFor_nbr_review': boucleFor_nbr_review,
-        'a': a,
-        'b': b,
-
-
-
-
     }
     return render(request, 'posts.html', context=context)
 
