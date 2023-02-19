@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<form method="post" enctype="multipart/form-data">
     <p>fLUX HTML</p>
+ <br>
+<a href="{% url 'creatTicket' %}">[Demander une critique (créer un ticket) ]</a>
+<br>
+<a href="{% url 'creatTicketReview' %}">[Créer une critique (créer un Review + critique]
+
+    <p> listTicketInReviews_all_user {{ listTicketInReviews_all_user  }}</p>
+    <p>listTicketInTicket_all_user {{ listTicketInTicket_all_user  }}</p>
+    <p>listTicketWithoutReviews_all_user {{ listTicketWithoutReviews_all_user  }}</p>
 
 
+
+
+</form>
 {% endblock content %}
 

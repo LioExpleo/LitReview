@@ -1,5 +1,5 @@
 from .views import indexTicket, indexReview, indexTicketReview, indexUserFollows, indexAbonnement, viewsPosts, \
-    review_update, review_delete, ticket_delete, ticket_update
+    review_update, review_delete, ticket_delete, ticket_update, viewsFlux
 from django.urls import path
 
 # 1 nom affiché dans l'adresse navigateur
@@ -11,7 +11,7 @@ urlpatterns = [path('CreatTicketReview/', indexTicketReview, name='creatTicketRe
                path('CreatUserFollows/', indexUserFollows, name='abonnement'),
 
                path('posts/', viewsPosts, name='posts'),
-
+               path('flux/', viewsFlux, name='flux'),
 
 
                path("<int:id>/review_delete/", review_delete, name='review_delete'),
