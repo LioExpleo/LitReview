@@ -14,18 +14,13 @@
     <p> <h4>Liste des tickets utilisateurs : listTicketInTicket_user :  {{ listTicketInTicket_user }} </h4>  </p>
     <p> <h4>Liste des tickets de l'utilisateur sans Review : listTicketWithoutReviews_user :  {{ listTicketWithoutReviews_user }} </h4>  </p>
 
-     <p> a {{  a }}</p>
-    {{  b }}
 
     <p> la liste listTicketWithoutReviews_user, indique quel tickets seront à afficher sans Review </p>
 
 
-{% for instance in tickets_and_reviews %}
-
-     {% for instReview in reviews_user %}
-
+{% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
+     {% for instReview in reviews_user %} <!-- boucle 1.1 pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview.id %}
-
         <div class="cl_post_review">
             <p> Review : {{ instReview }} <h2/> REVIEW {{ instReview.id }} </h2> </p>
             <p>Vous avez publié une critique</p>
@@ -88,12 +83,13 @@
             {% endif %}
         {% endfor %}
 
-       {% for i in listTicketWithoutReviews_user %}
+       {% for i in listTicketWithoutReviews_user %} <!-- boucle 1.2 pour tester tous les tickets sans Review user -->
               {% if instance.id == i %}
                  <p> instance.ID =  i , ticket de soi-même à afficher seul car pas de Review pour le ticket </p>
 
-                {% for instTicket in tickets_user %}
+                {% for instTicket in tickets_user %} <!-- boucle 1.2.1 pour tester tous les tickets user -->
                     {% if instance.id == instTicket.id %}
+
                         <p> **************** debut du ticket sans Review ****************</p>
                         <p> <h4> instTicket.id : {{ instTicket.id }} </h4></p>
                         <p>{{ instTicket.time_created  }}</p>

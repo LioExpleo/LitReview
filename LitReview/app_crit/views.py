@@ -209,65 +209,57 @@ def viewsPosts(request):
 
     # liste de tickets dans tous mes reviews
     listTicketInReviews_user = []
-
     # liste de tous mes tickets
     listTicketInTicket_user = []
-
     # liste de tickets qui ne sont pas dans les Reviews
     listTicketWithoutReviews_user = []
     listTicket_user = []
     listReview_user = []
 
+    # liste de tous les Reviews utilisateur
     for i in reviews_user:
         listReview_user.append(i)
 
+    # liste de tous les Reviews
     allReviews = Review.objects.all()
-    # liste de tous les tickets dans Review de l'utilisateur, pas tous les reviews
+
+    # Création de la liste de tous les tickets dans Review de l'utilisateur
     for ticketReview in reviews_user:
         ticketInReview_user = ticketReview.ticket.id
         listTicketInReviews_user.append(ticketInReview_user)
 
-    # liste de tous les id (tickets) dans ticket de l'utilisateur
+    # Création de la liste de tous les id (tickets) dans ticket de l'utilisateur
     for idTicket in tickets_user:
         TicketInTicket_user = idTicket.id
         listTicketInTicket_user.append(TicketInTicket_user)
         listTicket_user.append(TicketInTicket_user)
 
-    # liste de tous les tickets qui n'ont pas de review utilisateur
+    # CONSTRUCTION DE LA LISTE DES TICKETS QUI N'ONT PAS DE REVIEW (à partir des 2 listes précédentes)
     # on prend la liste de tous les tickets, et on supprime ceux qui se retrouvent dans review avec pop
-    # (avec utilisation de =, les 2 listes sont liées)
-    #listTicketInTicket_user_pour_html = [i for i in listTicketInTicket_user]
-    #listTicketWithoutReviews_user = list(listTicketInTicket_user)
+
+    # copie de la liste des tickets utilisateurs dans la liste pour construction liste ticket sans review
     listTicketWithoutReviews_user = [i for i in listTicketInTicket_user]
 
-    # La 1ere boucle teste tous les tickets
-    index1 = 0
-    popTicket = 0 # Décalage pour prendre en compte la diminution de la liste dans l'index
-    pop = False
-    longList = len(listTicketInTicket_user)
-
-    for i in listTicket_user:
-    #for x in listReview_user:
-        idTicketTicket = listTicketInTicket_user[index1]
-        #La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
+    # La 1ere boucle teste tous les tickets en partant du dernier de la liste jusqu'au ticket avec index = 0
+    longListTicket = len(listTicketInTicket_user)
+    # pour tous les tickets en partant de la fin de la liste jusqu'au ticket [0]
+    while longListTicket >= 0:
+        indexTicketListe = longListTicket - 1
+        idTicketTicket = listTicketInTicket_user[indexTicketListe]
+        # La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
         # dans le Review testé. Si le ticket est dans un Review, il est supprimé de la liste,
         # à la fin des boucles, ne resteront que les tickets sans Review
-        boucleFor_nbr_review = 0
-        index2 = 0
-        # Si suppression d'un élément de la liste, prise en compte avec popTicket qui indique le nombre de suppression
-        # de ticket de la liste. listTicketWithoutReviews_user et listTicketInReviews_user sont liés.
+        indexReview = 0
         for j in listTicketInReviews_user:
-            boucleFor_nbr_review += 1
-            idTicketInReview = listTicketInReviews_user[index2]
+            # boucleFor_nbr_review += 1
+            idTicketInReview = listTicketInReviews_user[indexReview]
             if str(idTicketTicket) == str(idTicketInReview):
-                listTicketWithoutReviews_user.pop(index1 - popTicket)
-                popTicket += 1
-                pop = True
-                pass
-            index2 += 1
-        index1 += 1
+                listTicketWithoutReviews_user.pop(indexTicketListe)
+                break
+            indexReview += 1
+        longListTicket -= 1
 
-    # pour récupérer les tickets uniquement des autres utilisateurs,
+    # Récupération des tickets uniquement des autres utilisateurs pour le HTML
     # récupérer tous les tickets et exclure ceux de l'utilisateur
     tickets_other_user_0 = Ticket.objects.all()
     tickets_other_user = tickets_other_user_0.exclude(user=request.user)
@@ -280,8 +272,7 @@ def viewsPosts(request):
         review = get_instance(request, models.Review, review_id)
         return render(request, 'review_update.html', context=context)
 
-    # chain transforme les 2 dict en un, ce qui permettra d'itérer sur les 2 de façon non séparée
-
+    # chain transforme les 2 dict en un, ce qui permettra d'utiliser une seule itération pour les 2 dans le HTML
     tickets_and_reviews = sorted(
         chain(tickets_user, reviews_user),
         key=lambda instance: instance.time_created,
@@ -302,19 +293,110 @@ def viewsPosts(request):
 
 @login_required
 def viewsFlux(request):
-    form = 0
-     # récup de tous les Reviews et tous les tickets, mais uniquement de l'utilisateur connecté
+    # récup de tous les Reviews de l'utilisateur et de tous les utilisateurs
+    reviews_user = Review.objects.filter(user=request.user)
     reviews_all_user = Review.objects.all()
+
+    list_reviews_user =[]
+    # CREATION DE LA LISTE DES REVIEWS AUTRES UTILISATEURS
+    # création liste review utilisateur
+    for i in reviews_user:
+        list_reviews_user.append(i.id)
+
+    list_reviews_all_user =[]
+    # création liste review
+    for i in reviews_all_user:
+        list_reviews_all_user.append(i.id)
+
+    # création liste de tous les tickets
+    ticket_all_user = Ticket.objects.all()
+    list_ticket_all_user = []
+    for i in ticket_all_user:
+        list_ticket_all_user.append(i.id)
+
+    # création liste des tickets utilisateurs
+    ticket_user = Ticket.objects.filter(user=request.user)
+    list_ticket_user = []
+    for i in ticket_user:
+        list_ticket_user.append(i.id)
+
+    # création liste ticket de tous les reviews
+    list_ticket_all_user_all_review = []
+    for ticketReview_all_user in reviews_all_user:
+        ticketInReview_all_user = ticketReview_all_user.ticket.id
+        list_ticket_all_user_all_review.append(ticketInReview_all_user)
+
+    # Création de la liste des reviews autres utilisateurs à partir de la liste de tous les review
+    list_reviews_other_user = [i for i in list_reviews_all_user]
+    longListReview = len(list_reviews_all_user)
+    while longListReview >= 0:
+        indexReview = longListReview - 1
+        index2 = 0
+        for j in list_reviews_user:
+            if list_reviews_all_user[indexReview] == list_reviews_user[index2]:
+                list_reviews_other_user.pop(indexReview)
+                break
+            index2 += 1
+        longListReview -= 1
+
+    # Création de la liste des tickets autres utilisateurs à partir de la liste de tous les tickets
+    list_ticket_other_user = [i for i in list_ticket_all_user]
+    longListTicket = len(list_ticket_all_user)
+    while longListTicket >= 0:
+        indexTicket = longListTicket - 1
+        index2 = 0
+        for j in list_ticket_user:
+            if list_ticket_all_user[indexTicket] == list_ticket_user[index2]:
+               list_ticket_other_user.pop(indexTicket)
+               break
+            index2 += 1
+        longListTicket -= 1
+
+    # CREATION DE LA LISTE DES TICKETS AUTRES UTILISATEURS SANS REVIEW ENSUITE
+    # TESTER TOUS LES TICKETS UTILISATEURS ET VERIFIER SI DANS REVIEWS
+    list_ticket_other_user_whithout_review = [i for i in list_ticket_other_user]
+
+    longListTicket_other_user = len(list_ticket_other_user)
+
+    while longListTicket_other_user >= 0:
+        indexTicket_other_user = longListTicket_other_user - 1
+        index2 = 0
+        for j in list_reviews_all_user:
+            if list_ticket_other_user[indexTicket_other_user] == list_ticket_all_user_all_review[index2]:
+                list_ticket_other_user_whithout_review.pop(indexTicket_other_user)
+                break
+            index2 += 1
+        longListTicket_other_user = longListTicket_other_user - 1
+
+    # récup de tous les tickets de l'utilisateur et de tous les utilisateurs
+    tickets_user = Ticket.objects.filter(user=request.user)
     tickets_all_user = Ticket.objects.all()
 
-     # liste de tickets dans tous mes reviews
-    listTicketInReviews_all_user = []
+    reviews_other_user_0 = Review.objects.all()
+    reviews_other_user = reviews_other_user_0.exclude(user=request.user)
 
-     # liste de tous mes tickets
-    listTicketInTicket_all_user = []
+    tickets_and_reviews = sorted(chain(tickets_all_user, reviews_all_user),
+        key=lambda instance: instance.time_created,
+        reverse=True)
 
-    # liste de tickets qui ne sont pas dans les Reviews
-    listTicketWithoutReviews_all_user = []
+    context = {
+        'tickets_and_reviews': tickets_and_reviews,
+        'reviews_all_user': reviews_all_user,
+        'reviews_user': reviews_user,
+        'reviews_other_user': reviews_other_user,
+
+        'tickets_all_user': tickets_all_user,
+        'tickets_user': tickets_user,
+
+        'list_reviews_all_user': list_reviews_all_user,
+        'list_reviews_user': list_reviews_user,
+        'list_reviews_other_user': list_reviews_other_user,
+        'list_ticket_other_user': list_ticket_other_user,
+        'list_ticket_other_user_whithout_review': list_ticket_other_user_whithout_review,
+        'list_ticket_all_user_all_review': list_ticket_all_user_all_review,
+    }
+    return render(request, 'flux.html', context=context) # le formulaire est généré dans le modèle
+'''   
 
     # liste de tous les tickets dans Review de tous les utilisateurs
     for ticketReview in reviews_all_user:
@@ -326,43 +408,38 @@ def viewsFlux(request):
         TicketInTicket_all_user = idTicket.id
         listTicketInTicket_all_user.append(TicketInTicket_all_user)
 
-    # Trouver liste de tous les tickets qui n'ont pas de review utilisateur
+    # CONSTRUCTION DE LA LISTE DES TICKETS QUI N'ONT PAS DE REVIEW (à partir des 2 listes précédentes)
     # on prend la liste de tous les tickets, et on supprime ceux qui se retrouvent dans review avec pop
-    # avec = les 2 listes sont liées
 
-    # listTicketInTicket_all_user_pour_html = [i for i in listTicketInTicket_all_user]
-    # listTicketWithoutReviews_all_user = [i for i in listTicketInTicket_all_user]
-    listTicketWithoutReviews_all_user = list(listTicketInTicket_all_user)
-    #listTicketWithoutReviews_all_user = listTicketInTicket_all_user
-     # La 1ere boucle teste tous les tickets
-    index1 = 0
-    for x in listTicketInTicket_all_user:
-        idTicketTicket = listTicketInTicket_all_user[index1]
+    # copie de la liste des tickets utilisateurs dans la liste pour construction liste ticket sans review
+    listTicketWithoutReviews_all_user = [i for i in listTicketInTicket_all_user]
 
-        #La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
+    # La 1ere boucle teste tous les tickets en partant du dernier de la liste jusqu'au ticket avec index = 0
+    longListTicket = len(listTicketInTicket_all_user)
+
+     # pour tous les tickets en partant de la fin de la liste jusqu'au ticket [0]
+    while longListTicket >= 0:
+        indexTicketListe = longListTicket - 1
+        idTicketTicket = listTicketInTicket_all_user[indexTicketListe]
+        # La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
         # dans le Review testé. Si le ticket est dans un Review, il est supprimé de la liste,
         # à la fin des boucles, ne resteront que les tickets sans Review
-        index2 = 0
-        for y in listTicketInReviews_all_user:
-            idTicketInReview = listTicketInReviews_all_user[index2]
-            if idTicketTicket == idTicketInReview:
-                try:
-                    listTicketWithoutReviews_all_user.pop(index1)
-                except:
-                    pass
-            index2 += 1
-        index1 += 1
+        indexReview = 0
+        for j in listTicketInReviews_all_user:
+            idTicketInReview = listTicketInReviews_all_user[indexReview]
+            if str(idTicketTicket) == str(idTicketInReview):
+                listTicketWithoutReviews_all_user.pop(indexTicketListe)
+                break
+            indexReview += 1
+        longListTicket -= 1
 
 
-        #return render(request, 'review_update.html', {'form': form}) # le formulaire est généré dans le modèle
-    context = {
-        'form': form,
-        'listTicketInReviews_all_user': listTicketInReviews_all_user,
-        'listTicketInTicket_all_user': listTicketInTicket_all_user,
-        'listTicketWithoutReviews_all_user': listTicketWithoutReviews_all_user,
+'''
+    # chain transforme les 2 dict en un, ce qui permettra d'utiliser une seule itération pour les 2 dans le HTML
 
-    }
-    return render(request, 'flux.html', context=context) # le formulaire est généré dans le modèle
+
+
+
 
 
 @login_required
