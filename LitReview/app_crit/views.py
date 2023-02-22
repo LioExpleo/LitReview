@@ -244,7 +244,7 @@ def viewsPosts(request):
     longListTicket = len(listTicketInTicket_user)
     longListTicketx = len(listTicketInTicket_user)
     # pour tous les tickets en partant de la fin de la liste jusqu'au ticket [0]
-    while longListTicket >= 0:
+    while longListTicket >= 1:
         indexTicketListe = longListTicket - 1
         idTicketTicket = listTicketInTicket_user[indexTicketListe]
         # La 2eme boucle teste tous les tickets des Reviews, et vérifie que l'id du ticket ne se trouve pas
