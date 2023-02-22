@@ -16,15 +16,25 @@
     <p>Liste tickets autres utilisateurs : list_ticket_other_user {{ list_ticket_other_user  }}</p>
     <p>Liste tickets dans Review : list_ticket_all_user_all_review{{ list_ticket_all_user_all_review  }}</p>
 
+    <p><h1> {{reviews_user }}</h1> </p>
+     <p><h1> test : {{ test }}</h1> </p>
+     <p><h1> tous les Reviews : {{ reviews_other_user_0 }}</h1> </p>
+    <p><h1> reviews_other_user : {{ reviews_other_user }}</h1> </p>
+
+
     <p>Liste tickets autres utilisateurs sans Revierw  :list_ticket_other_user_whithout_review {{  list_ticket_other_user_whithout_review }}</p>
     <br>
     <br>
     <br>{{longListTicket_other_user}}
     <br>{{list_reviews_all_user}}
     <br>{{reviews_all_user}}
+    <br>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx{{list_ticket_other_user_whithout_review}}
+    <br>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh{{ticket_other_user_whithout_review}}
+
+
 
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
-    {% for instReview_user in reviews_all_user %} <!-- -->
+    {% for instReview_user in reviews_user %} <!-- boucle pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview_user.id %}
             <p><h4>Vous avez publié une critique  {{instReview_user.id}} </h4></p>
             <p>{{instReview_user.time_created}}</p>
@@ -39,17 +49,18 @@
                      <p> ticket description : {{instReview_user.ticket.description}}</p>
                      {% if instReview_user.ticket.image.url is not None %}
                         <img src="{{ instReview_user.ticket.image.url }}">
+                     {% else %}
+                        <p> <h4> pas d'image pour ce tiquet </h4></p>
                      {% endif %}
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
             {% endfor %}
         {% endif %}
-        <!-- construire une liste de Reviews autre utilisateurs -->
     {% endfor %}
 
-    {% for instReviews_other_user in reviews_other_user %} <!-- -->
+    {% for instReviews_other_user in reviews_other_user %}
          {% if instance.id == instReviews_other_user.id %}
-            <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.user.id}}</h4> </p>
+            <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
             <p> Rating : {{instReviews_other_user.rating}}</p>
             <p> headline : {{instReviews_other_user.headline}}</p>
@@ -62,14 +73,27 @@
                      <p> ticket description : {{instReviews_other_user.ticket.description}}</p>
                      {% if instReviews_user_other.ticket.image.url is not None %}
                         <img src="{{ instReviews_other_user.ticket.image.url }}">
+                      {% else %}
+                        <p> <h4> pas d'image pour ce tiquet </h4>  </p>
                      {% endif %}
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
              {% endfor %}
-
-          <p> <h4> *************************************************************</h4> </p>
           {% endif %}
+    {% endfor %}
 
+    {% for inst_ticket_other_user_whithout_review in ticket_other_user_whithout_review %}
+             {% if inst_ticket_other_user_whithout_review.id == instance.id  %}
+                <p> <h1> {{inst_ticket_other_user_whithout_review.user}} a demandé une critique  : {{inst_ticket_other_user_whithout_review.id}} </h1></p>
+                        <p> ticket time_created : {{inst_ticket_other_user_whithout_review.time_created}}</p>
+                        <p> ticket titre : {{inst_ticket_other_user_whithout_review.title}}</p>
+                        <p> ticket description : {{inst_ticket_other_user_whithout_review.description}}</p>
+                        {% if inst_ticket_other_user_whithout_review.image.url is not None %}
+                           <img src="{{ inst_ticket_other_user_whithout_review.image.url }}">
+                        {% else %}
+                           <p> <h4> pas d'image pour ce tiquet </h4>  </p>
+                        {% endif %}
+             {% endif %}
     {% endfor %}
 {% endfor %}
 </form>
