@@ -230,3 +230,9 @@ width: 80px;
 position:relative;
 left:70%;
 }
+
+.clExtrRatingStar{
+display:flex;
+justify-content: start;
+}
+

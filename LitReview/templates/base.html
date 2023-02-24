@@ -13,6 +13,16 @@
    <body>
 
     <h1 id="base_title">LitReview</h1>
+
+    {% if user.is_authenticated %}
+        <nav>
+            <a href="{% url 'flux' %}">Flux</a>
+            <a href="{% url 'posts' %}">Posts</a>
+            <a href="{% url 'abonnement' %}">Abonnements</a>
+            <a href="{% url 'logout' %}">Se déconnecter</a>
+        </nav>
+        {% endif %}
+
      <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
          <!-- Note
       <a class="navbar-brand" href="{% url 'home' %}">Mes Notesxxx</a>
@@ -39,20 +49,7 @@
             <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
           </li>
           {% else %}
-            <!--
-          <li class="nav-item active">
 
-            <a class="nav-link" href="{% url 'login' %}">Connexion</a>
-
-          </li>
-          -->
-            <!--
-          <li class="nav-item active">
-
-            <a class="nav-link" href="{% url 'register' %}">Inscription</a>
-
-          </li>
-          -->
           {% endif %}
         </ul>
       </div>

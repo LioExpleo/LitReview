@@ -21,7 +21,6 @@ def home(request):
 	}
 	return render(request, 'flux.html',context)
 
-
 def register(request):
 	if request.method == 'POST' :
 		form = UserCreationForm(request.POST)
@@ -32,7 +31,7 @@ def register(request):
 			user = authenticate(username=username, password=password)
 			login(request,user)
 			messages.success(request, f'Bienvenu {username}, Votre compte a été créé avec succès !')
-			return redirect('home')
+			return redirect('flux')
 	else:
 		form = UserCreationForm()
 	return render(request,'registration/register.html', {'form' : form})

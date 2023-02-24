@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+{% load static %}
 <form method="post" enctype="multipart/form-data">
     <p>FLUX HTML</p>
  <br>
 <a href="{% url 'creatTicket' %}">[Demander une critique (créer un ticket) ]</a>
 <br>
 <a href="{% url 'creatTicketReview' %}">[Créer une critique (créer un Review + critique]</a>
-    <br>
     <br>
     <p>Liste de tous les reviews : list_reviews_all_user {{ list_reviews_all_user  }}</p>
     <p>Liste reviews utilisateurs : list_reviews_user {{ list_reviews_user  }}</p>
@@ -17,12 +16,12 @@
     <p>Liste tickets dans Review : list_ticket_all_user_all_review{{ list_ticket_all_user_all_review  }}</p>
 
     <p><h1> {{reviews_user }}</h1> </p>
-     <p><h1> test : {{ test }}</h1> </p>
-     <p><h1> tous les Reviews : {{ reviews_other_user_0 }}</h1> </p>
+    <p><h1> test : {{ test }}</h1> </p>
+    <p><h1> tous les Reviews : {{ reviews_other_user_0 }}</h1> </p>
     <p><h1> reviews_other_user : {{ reviews_other_user }}</h1> </p>
 
+    <p>Liste tickets autres utilisateurs sans Review  :list_ticket_other_user_whithout_review {{ list_ticket_other_user_whithout_review }}</p>
 
-    <p>Liste tickets autres utilisateurs sans Revierw  :list_ticket_other_user_whithout_review {{  list_ticket_other_user_whithout_review }}</p>
     <br>
     <br>
     <br>{{longListTicket_other_user}}
@@ -31,16 +30,15 @@
     <br>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx{{list_ticket_other_user_whithout_review}}
     <br>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh{{ticket_other_user_whithout_review}}
 
-
-
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
     {% for instReview_user in reviews_user %} <!-- boucle pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview_user.id %}
             <p><h4>Vous avez publié une critique  {{instReview_user.id}} </h4></p>
             <p>{{instReview_user.time_created}}</p>
             <p> Rating : {{instReview_user.rating}}</p>
+             {% include "extrait/extr_rating_stars.html" with rating=instReview_user.rating %}
             <p> headline : {{instReview_user.headline}}</p>
-            <p> ticket : {{instReview_user.ticket.id}}</p>
+            <p> ticket : {{instReview_user.ticket.id}} </p>
             {% for inst_tickets_all_user in tickets_all_user %}
                 {% if instReview_user.ticket.id == inst_tickets_all_user.id %}
                      <p> ticket trouvé : {{instReview_user.ticket.id}}</p>
@@ -48,7 +46,7 @@
                      <p> ticket titre : {{instReview_user.ticket.title}}</p>
                      <p> ticket description : {{instReview_user.ticket.description}}</p>
                      {% if instReview_user.ticket.image.url is not None %}
-                        <img src="{{ instReview_user.ticket.image.url }}">
+                        <img src="{{ instReview_user.ticket.image.url }}" width="200" height="300">
                      {% else %}
                         <p> <h4> pas d'image pour ce tiquet </h4></p>
                      {% endif %}
@@ -63,6 +61,7 @@
             <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
             <p> Rating : {{instReviews_other_user.rating}}</p>
+            {% include "extrait/extr_rating_stars.html" with rating=instReviews_other_user.rating %}
             <p> headline : {{instReviews_other_user.headline}}</p>
             <p> ticket : {{instReviews_other_user.ticket.id}}</p>
              {% for inst_tickets_all_user in tickets_all_user %}
@@ -72,7 +71,7 @@
                      <p> ticket titre : {{instReviews_other_user.ticket.title}}</p>
                      <p> ticket description : {{instReviews_other_user.ticket.description}}</p>
                      {% if instReviews_user_other.ticket.image.url is not None %}
-                        <img src="{{ instReviews_other_user.ticket.image.url }}">
+                        <img src="{{ instReviews_other_user.ticket.image.url }}" width="200" height="300">
                       {% else %}
                         <p> <h4> pas d'image pour ce tiquet </h4>  </p>
                      {% endif %}
@@ -89,7 +88,7 @@
                         <p> ticket titre : {{inst_ticket_other_user_whithout_review.title}}</p>
                         <p> ticket description : {{inst_ticket_other_user_whithout_review.description}}</p>
                         {% if inst_ticket_other_user_whithout_review.image.url is not None %}
-                           <img src="{{ inst_ticket_other_user_whithout_review.image.url }}">
+                           <img src="{{ inst_ticket_other_user_whithout_review.image.url }}" width="200" height="300">
                         {% else %}
                            <p> <h4> pas d'image pour ce tiquet </h4>  </p>
                         {% endif %}

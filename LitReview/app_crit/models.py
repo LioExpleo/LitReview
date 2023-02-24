@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from PIL import Image # PIL, bibliothèque pour redimensionner les photos.
 # Create your models here.
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
@@ -8,6 +9,19 @@ class Ticket(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateField(auto_now_add=True) #, auto_now=False, default=django.utils.timezone.now())
+
+    IMAGE_MAX_SIZE = (400, 400) # valeur et largeur de pixel dans une constante de class
+    def resize_image(self): # Methode dans le modèle où se trouve la photo
+        image = Image.open(self.image)
+        image.thumbnail(self.IMAGE_MAX_SIZE) # thumbnail est la méthode qui permet de redimmensionner l'image
+        # argumeents est largeur et hauteur en pixel max
+        image.save(self.image.path) # sauvegarder en appelant la méthode save et en passant en argument
+        # le chemin de l'image
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image:
+            self.resize_image()
 
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)

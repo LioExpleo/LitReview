@@ -28,6 +28,7 @@
             <p> time created : {{ instReview.time_created }}</p>
             <p> ticket : {{ instReview.ticket.id }}</p>
             <p> rating : {{ instReview.rating }}</p>
+            {% include "extrait/extr_rating_stars.html" with rating=instReview.rating %}
             <p> headline : {{ instReview.headline }}</p>
             <p> body : {{ instReview.body }}</p>
             <p> <h4> n° TICKET REVIEW : {{ instReview.ticket.id }}</p> </h4>
