@@ -15,9 +15,7 @@
     <p> <h4>Liste des tickets utilisateurs : listTicketInTicket_user :  {{ listTicketInTicket_user }} </h4>  </p>
     <p> <h4>Liste des tickets de l'utilisateur sans Review : listTicketWithoutReviews_user :  {{ listTicketWithoutReviews_user }} </h4>  </p>
 
-
     <p> la liste listTicketWithoutReviews_user, indique quel tickets seront à afficher sans Review </p>
-
 
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
      {% for instReview in reviews_user %} <!-- boucle 1.1 pour tester tous les Reviews de l'utilisateur -->
@@ -28,7 +26,8 @@
             <p> time created : {{ instReview.time_created }}</p>
             <p> ticket : {{ instReview.ticket.id }}</p>
             <p> rating : {{ instReview.rating }}</p>
-            {% include "extrait/extr_rating_stars.html" with rating=instReview.rating %}
+
+            {% include "extrait/extr_rating_stars2.html" with rating=instReview.rating list_for_max_star=list_for_max_star%}
             <p> headline : {{ instReview.headline }}</p>
             <p> body : {{ instReview.body }}</p>
             <p> <h4> n° TICKET REVIEW : {{ instReview.ticket.id }}</p> </h4>
@@ -36,7 +35,6 @@
             <p> ------------------------Review------------------------------</p>
             {% for instTicketOther in tickets_other_user %}
             <!-- <p> TICKET AUTRE UTILISATEUR : {{ instTicketOther.id }}</p> -->
-
             <!-- si le ticket du review = le ticket de l'utilisateur, afficher les données de l'autre utilisateur
             à la suite-->
                 {% if instReview.ticket.id == instTicketOther.id %}
@@ -48,15 +46,14 @@
                     <p> Description Ticket : {{ instTicketOther.title }}</p>
 
                     {% if instTicketOther.image.url is not None %}
-                        <img src="{{ instTicketOther.image.url }}">
+                        <img src="{{ instTicketOther.image.url }}" width="200" height="300">
                     {% endif %}
 
                     <br>
-                             <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
-                            <br>
-                            <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
+                    <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
+                    <br>
+                    <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
                     <p> **************** FIN REVIEW + TICKET AVEC AUTRE UTILISATEUR CREATEUR DU TICKET ****************</p>
-                    <p> ***********************************************************************************************</p>
                 {% endif %}
              {% endfor %}
 
@@ -72,7 +69,7 @@
                         <p> Description Ticket : {{ instTicket.title }}</p>
 
                         {% if instTicket.image.url is not None %}
-                            <img src="{{ instTicket.image.url }}">
+                            <img src="{{ instTicket.image.url }}" width="200" height="300">
                         {% endif %}
                     <br>
                     <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
@@ -98,7 +95,7 @@
                         <p> Titre {{ instTicket.title }}</p>
                         <p>{{ instTicket.description }}</p>
                         {% if instTicket.image.url is not None %}
-                            <img src="{{ instTicket.image.url }}">
+                            <img src="{{ instTicket.image.url }}" width="200" height="300">
                         {% endif %}
                          <p> **************** fin du ticket sans Review ****************</p>
                     {% endif %}
@@ -106,11 +103,8 @@
               {% endif %}
        {% endfor %}
 </div>
-
 {% endfor %}
-
 </form>
-
 {% endblock %}
 
 

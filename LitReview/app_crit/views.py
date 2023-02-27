@@ -15,7 +15,6 @@ from django.shortcuts import (
 )
 
 from django.contrib.auth.models import User
-
 from itertools import chain
 # Pour créer le formulaire, faire l'instanciation sur la classe du formulaire importé ReviewForm
 # indiquer le formulaire sous forme d'un dictionnaire avec {}
@@ -41,13 +40,24 @@ def indexTicket(request):
         form = TicketForm()
      return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
 
-def indexReview(request):
+def indexReview(request,id):
+     ticketReview = Ticket.objects.get(id=id)   # obtenir l'enregistrement(objet) du modele Ticket ayant comme id,
+                                                # l'id récupéré dans le html avec request
+                                                # inst_ticket_other_user_whithout_review.id
+
      form = ReviewForm(request.POST or None)
      messages = "enregistrement ok"
      # Recup de tous les Reviews de l'utilisateur connecté
      reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
-
-
+    #*************************************
+     if form.is_valid() :
+            review = form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticketReview
+            review.save()
+            return redirect('posts')
+    #*************************************
+     ''''
      # Mise de l'utilisateur
      if form.is_valid():
         donneesFormulaireReview = form.save(commit=False)
@@ -56,7 +66,14 @@ def indexReview(request):
         form = ReviewForm()
      else :
          messages = "Enregistrement"
-     return render(request, 'creatReview.html', {'form': form, 'messages': messages, 'reviews_to_my_tickets': reviews_to_my_tickets} )
+     '''
+     context = {
+         'form': form,
+         'messages': messages,
+         'reviews_to_my_tickets': reviews_to_my_tickets,
+         'ticketReview': ticketReview,
+     }
+     return render(request, 'creatReview.html', context=context )
 
 
         # obtenir les donnees de modele a partir d'un formulaire afin de remplir certains champs
@@ -85,7 +102,6 @@ def indexTicketReview(request):
             review = review_form.save(commit=False)
             review.user = request.user
             review.ticket = ticket
-
             ticket.save()
             review.save()
          return redirect('home')
@@ -139,17 +155,9 @@ def indexUserFollows(request):
 
 def indexAbonnement(request):
     #recup de tous les objets de la base de données
-
-    #userFollow = UserFollows.objects.all()
-    """
-    Management function of the followed users page
-    """
-
     form = UserFollowsForm(request.POST or None)
 
     obj_recup_01 = "test objet recup 1"
-
-    #if request.user.is_authenticated:
     obj_recup_01 = "test objet recup 1"
     obj_recup_01 = Review.objects.filter(ticket__user_id=request.user.id)
     #obj_recup_01 = Review.objects.all()
@@ -166,14 +174,6 @@ def indexAbonnement(request):
     obj_recup_06 = UserFollows.objects.values("followed_user")
     obj_recup_07 = UserFollows.objects.values("user", "followed_user")
 
-    #obj_recup_04 = UserFollows.objects.filter(user=user)
-    #obj_recup_05 = UserFollows.objects.filter(followed_user=user)
-    #obj_recup_06 = Review.objects.filter(user__id__in=followed_user)
-    #obj_recup_07 = Ticket.annotate(content_type=Value('TICKET', CharField()))
-
-    # templateAbonnement.html
-    ''''''
-    #user = UserFollows.objects.filter("user")
     userFollow = UserFollows.objects.all()
 
     if form.is_valid():
@@ -188,18 +188,6 @@ def indexAbonnement(request):
                                                        'obj_recup_07': obj_recup_07[2],
                                                        'userFollow': userFollow[6],
                                                        })
-
-    # reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
-    # obj_recup_01 = Reviews.objects.get(name='Description')
-
-    #obj_recup_02 = Reviews.objects.get(name='Description')
-    #obj_recup_03 = Reviews.objects.get(name='Description')
-    #reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
-
-    # return(render(request, 'abonnement.html', context={ "obj_recup_01": obj_recup_01 }))
-    # X = UserFollows.followed_user.objects.filter(UserFollows.id=request.user.id)
-
-    # context = { indexReview()}
 
 @login_required
 def viewsPosts(request):
@@ -279,6 +267,8 @@ def viewsPosts(request):
         key=lambda instance: instance.time_created,
         reverse=True)
 
+    list_for_max_star = [1, 2, 3, 4, 5]
+
     context = {
         'reviews_user': reviews_user,
         'tickets_user': tickets_user,
@@ -289,12 +279,13 @@ def viewsPosts(request):
         'listTicketInTicket_user': listTicketInTicket_user,
         'listTicketWithoutReviews_user': listTicketWithoutReviews_user,
         'listTicket_user': listTicket_user,
-
+        'list_for_max_star': list_for_max_star,
     }
     return render(request, 'posts.html', context=context)
 
 @login_required
 def viewsFlux(request):
+
     # récup de tous les Reviews de l'utilisateur et de tous les utilisateurs
     test = request.user
 
@@ -380,20 +371,34 @@ def viewsFlux(request):
             if i == j.id:
                 ticket_other_user_whithout_review.append(j)
 
-
     # récup de tous les tickets de l'utilisateur et de tous les utilisateurs
     tickets_user = Ticket.objects.filter(user=request.user)
     tickets_all_user = Ticket.objects.all()
 
     reviews_other_user_0 = Review.objects.all()
 
-
-
     reviews_other_user = reviews_other_user_0.exclude(user=request.user)
+
+    test2="*"
+    Ticket_id = ticket_all_user
+    if request.method == 'POST' and "nameFluxCreatReviewTicketConnu" in request.POST:
+
+        test2 = "nameFluxCreatReviewTicketConnu"
+        Ticket_id = ticket_all_user
+        context={
+            'test2': test2,
+            'Ticket_id': Ticket_id,
+
+        }
+        return render(request, 'creatTicketReview.html', context=context)
+
+
 
     tickets_and_reviews = sorted(chain(tickets_all_user, reviews_all_user),
         key=lambda instance: instance.time_created,
         reverse=True)
+
+    list_for_max_star = [1, 2, 3, 4, 5]
 
     context = {
         'tickets_and_reviews': tickets_and_reviews,
@@ -406,15 +411,18 @@ def viewsFlux(request):
         'tickets_user': tickets_user,
         'ticket_other_user_whithout_review': ticket_other_user_whithout_review,
         'test': test,
-
+        'test2': test2,
+        'Ticket_id': Ticket_id,
         'list_reviews_all_user': list_reviews_all_user,
         'list_reviews_user': list_reviews_user,
         'list_reviews_other_user': list_reviews_other_user,
         'list_ticket_other_user': list_ticket_other_user,
         'list_ticket_other_user_whithout_review': list_ticket_other_user_whithout_review,
         'list_ticket_all_user_all_review': list_ticket_all_user_all_review,
+        'list_for_max_star': list_for_max_star,
     }
     return render(request, 'flux.html', context=context) # le formulaire est généré dans le modèle
+
 
 @login_required
 def review_delete(request, id):
@@ -442,7 +450,6 @@ def review_update(request, id):
     reviewRating_3=13
     reviewRating_4=14
     reviewRating_5=15
-
 
     #form = ReviewForm(request.POST, instance=review)
     if request.method == 'POST':
@@ -500,4 +507,26 @@ def ticket_update(request, id):
     }
     return render(request, 'ticket_update.html', context=context) # le formulaire est généré dans le modèle
 
+'''
+def creatReviewTicketConnu(request):
+     review_form = ReviewForm()
+     ticket_form = TicketForm()
+     # si click
+     if request.method == 'POST' or None and "nameFluxCreatReviewTicketConnu" in request.POST:
+         ticket_form = TicketForm(request.POST, request.FILES)
+         review_form = ReviewForm(request.POST)
+         ticket_id = ticket_form.id
 
+         if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket_id
+            ticket.save()
+            review.save()
+         return redirect('home')
+
+     context = {
+         'review_form': review_form,
+     }
+     return render (request, 'CreatReviewTicketConnu.html', context=context)
+'''

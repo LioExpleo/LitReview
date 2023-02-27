@@ -7,7 +7,7 @@ from django.urls import path
 # 3 html
 urlpatterns = [path('CreatTicketReview/', indexTicketReview, name='creatTicketReview'),
                path('CreatTicket/', indexTicket, name='creatTicket'),
-               path('CreatReview/', indexReview, name='creatReview'),
+               path("<int:id>/CreatReview/", indexReview, name='creatReview'),
                path('CreatUserFollows/', indexUserFollows, name='abonnement'),
 
                path('posts/', viewsPosts, name='posts'),
@@ -18,6 +18,7 @@ urlpatterns = [path('CreatTicketReview/', indexTicketReview, name='creatTicketRe
                path("<int:id>/review_update/", review_update, name='review_update'),
                path("<int:id>/ticket_delete/", ticket_delete, name='ticket_delete'),
                path("<int:id>/ticket_update/", ticket_update, name='ticket_update'),
+
 
                # path("<int: x.id> review_delete/", review_delete, name='review_delete'),
                # path('posts/ticket<int:ticket_id>/edit/', blog.views.ticket_edit, name='ticket_edit'),

@@ -16,10 +16,12 @@ from django.contrib import messages
 # vers la page de connexion, dont l’url  LOGIN_URL est définie dans le fichier de configuration settings.py
 
 def home(request):
-	context ={
-	'home': UserModel.objects.all()
-	}
-	return render(request, 'flux.html',context)
+	pass
+	#context ={
+	#'home': UserModel.objects.all()
+	#}
+	#return render(request, 'flux.html')
+	return redirect('flux')
 
 def register(request):
 	if request.method == 'POST' :

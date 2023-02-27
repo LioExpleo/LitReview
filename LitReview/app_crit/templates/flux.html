@@ -16,12 +16,12 @@
     <p>Liste tickets dans Review : list_ticket_all_user_all_review{{ list_ticket_all_user_all_review  }}</p>
 
     <p><h1> {{reviews_user }}</h1> </p>
-    <p><h1> test : {{ test }}</h1> </p>
+    <p><h1> test : {{ test }} </h1> </p>
+
     <p><h1> tous les Reviews : {{ reviews_other_user_0 }}</h1> </p>
     <p><h1> reviews_other_user : {{ reviews_other_user }}</h1> </p>
 
     <p>Liste tickets autres utilisateurs sans Review  :list_ticket_other_user_whithout_review {{ list_ticket_other_user_whithout_review }}</p>
-
     <br>
     <br>
     <br>{{longListTicket_other_user}}
@@ -30,13 +30,19 @@
     <br>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx{{list_ticket_other_user_whithout_review}}
     <br>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh{{ticket_other_user_whithout_review}}
 
+    <a href="{% url 'creatTicket' %}">[Demander une critique]</a>
+    <a href="{% url 'creatTicketReview' %}">[Créer une critique]</a>
+
+
+
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
     {% for instReview_user in reviews_user %} <!-- boucle pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview_user.id %}
             <p><h4>Vous avez publié une critique  {{instReview_user.id}} </h4></p>
             <p>{{instReview_user.time_created}}</p>
             <p> Rating : {{instReview_user.rating}}</p>
-             {% include "extrait/extr_rating_stars.html" with rating=instReview_user.rating %}
+             {% include "extrait/extr_rating_stars2.html" with rating=instReview_user.rating list_for_max_star=list_for_max_star  %}
+
             <p> headline : {{instReview_user.headline}}</p>
             <p> ticket : {{instReview_user.ticket.id}} </p>
             {% for inst_tickets_all_user in tickets_all_user %}
@@ -48,7 +54,7 @@
                      {% if instReview_user.ticket.image.url is not None %}
                         <img src="{{ instReview_user.ticket.image.url }}" width="200" height="300">
                      {% else %}
-                        <p> <h4> pas d'image pour ce tiquet </h4></p>
+                        <p> <h4> pas d'image pour ce ticket </h4></p>
                      {% endif %}
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
@@ -61,7 +67,7 @@
             <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
             <p> Rating : {{instReviews_other_user.rating}}</p>
-            {% include "extrait/extr_rating_stars.html" with rating=instReviews_other_user.rating %}
+             {% include "extrait/extr_rating_stars2.html" with rating=instReviews_other_user.rating list_for_max_star=list_for_max_star  %}
             <p> headline : {{instReviews_other_user.headline}}</p>
             <p> ticket : {{instReviews_other_user.ticket.id}}</p>
              {% for inst_tickets_all_user in tickets_all_user %}
@@ -73,7 +79,7 @@
                      {% if instReviews_user_other.ticket.image.url is not None %}
                         <img src="{{ instReviews_other_user.ticket.image.url }}" width="200" height="300">
                       {% else %}
-                        <p> <h4> pas d'image pour ce tiquet </h4>  </p>
+                        <p> <h4> pas d'image pour ce ticket </h4>  </p>
                      {% endif %}
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
@@ -90,9 +96,12 @@
                         {% if inst_ticket_other_user_whithout_review.image.url is not None %}
                            <img src="{{ inst_ticket_other_user_whithout_review.image.url }}" width="200" height="300">
                         {% else %}
-                           <p> <h4> pas d'image pour ce tiquet </h4>  </p>
+                           <p> <h4> pas d'image pour ce ticket </h4>  </p>
                         {% endif %}
+                    <br>
+                    <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}">[Créer une critique]</a>
              {% endif %}
+
     {% endfor %}
 {% endfor %}
 </form>
