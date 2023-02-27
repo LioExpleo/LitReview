@@ -49,6 +49,7 @@ def indexReview(request,id):
      messages = "enregistrement ok"
      # Recup de tous les Reviews de l'utilisateur connecté
      reviews_to_my_tickets = Review.objects.filter(ticket__user_id=request.user.id)
+
     #*************************************
      if form.is_valid() :
             review = form.save(commit=False)
@@ -67,11 +68,14 @@ def indexReview(request,id):
      else :
          messages = "Enregistrement"
      '''
+
      context = {
          'form': form,
          'messages': messages,
          'reviews_to_my_tickets': reviews_to_my_tickets,
          'ticketReview': ticketReview,
+
+
      }
      return render(request, 'creatReview.html', context=context )
 
@@ -381,14 +385,20 @@ def viewsFlux(request):
 
     test2="*"
     Ticket_id = ticket_all_user
+    userFollow = UserFollows.objects.filter(user=request.user)
+
+    # liste des utilisateurs que je suis
+    listUserFollow=[]
+    for i in userFollow:
+        listUserFollow.append(i.followed_user)
+
+
     if request.method == 'POST' and "nameFluxCreatReviewTicketConnu" in request.POST:
-
-        test2 = "nameFluxCreatReviewTicketConnu"
         Ticket_id = ticket_all_user
+        userFollow = UserFollows.objects.all()
         context={
-            'test2': test2,
             'Ticket_id': Ticket_id,
-
+             'listUserFollow': listUserFollow,
         }
         return render(request, 'creatTicketReview.html', context=context)
 
@@ -411,7 +421,8 @@ def viewsFlux(request):
         'tickets_user': tickets_user,
         'ticket_other_user_whithout_review': ticket_other_user_whithout_review,
         'test': test,
-        'test2': test2,
+        'listUserFollow': listUserFollow,
+        'userFollow': userFollow,
         'Ticket_id': Ticket_id,
         'list_reviews_all_user': list_reviews_all_user,
         'list_reviews_user': list_reviews_user,

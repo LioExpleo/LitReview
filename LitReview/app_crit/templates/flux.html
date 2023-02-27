@@ -62,7 +62,7 @@
         {% endif %}
     {% endfor %}
 
-    {% for instReviews_other_user in reviews_other_user %}
+    {% for instReviews_other_user in reviews_other_user %} <!-- boucle pour les Reviews autres utilisateurs -->
          {% if instance.id == instReviews_other_user.id %}
             <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
@@ -76,11 +76,13 @@
                      <p> ticket time_created : {{instReviews_other_user.ticket.time_created}}</p>
                      <p> ticket titre : {{instReviews_other_user.ticket.title}}</p>
                      <p> ticket description : {{instReviews_other_user.ticket.description}}</p>
+
                      {% if instReviews_user_other.ticket.image.url is not None %}
                         <img src="{{ instReviews_other_user.ticket.image.url }}" width="200" height="300">
                       {% else %}
                         <p> <h4> pas d'image pour ce ticket </h4>  </p>
                      {% endif %}
+
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
              {% endfor %}
@@ -98,6 +100,14 @@
                         {% else %}
                            <p> <h4> pas d'image pour ce ticket </h4>  </p>
                         {% endif %}
+
+                        {{userFollow}}
+
+                        {% for i in listUserFollow %}
+                        <p>  {{i}}</p>
+                        {% endfor %}
+
+                        {{inst_ticket_other_user_whithout_review.user}}
                     <br>
                     <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}">[Créer une critique]</a>
              {% endif %}
