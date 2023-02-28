@@ -9,31 +9,8 @@
 <br>
 <a href="{% url 'creatTicketReview' %}">[Créer une critique (créer un Review + critique]</a>
     <br>
-    <p>Liste de tous les reviews : list_reviews_all_user {{ list_reviews_all_user  }}</p>
-    <p>Liste reviews utilisateurs : list_reviews_user {{ list_reviews_user  }}</p>
-    <p>Liste reviews autres utilisateurs : list_reviews_other_user {{ list_reviews_other_user  }}</p>
-    <p>Liste tickets autres utilisateurs : list_ticket_other_user {{ list_ticket_other_user  }}</p>
-    <p>Liste tickets dans Review : list_ticket_all_user_all_review{{ list_ticket_all_user_all_review  }}</p>
-
-    <p><h1> {{reviews_user }}</h1> </p>
-    <p><h1> test : {{ test }} </h1> </p>
-
-    <p><h1> tous les Reviews : {{ reviews_other_user_0 }}</h1> </p>
-    <p><h1> reviews_other_user : {{ reviews_other_user }}</h1> </p>
-
-    <p>Liste tickets autres utilisateurs sans Review  :list_ticket_other_user_whithout_review {{ list_ticket_other_user_whithout_review }}</p>
-    <br>
-    <br>
-    <br>{{longListTicket_other_user}}
-    <br>{{list_reviews_all_user}}
-    <br>{{reviews_all_user}}
-    <br>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx{{list_ticket_other_user_whithout_review}}
-    <br>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh{{ticket_other_user_whithout_review}}
-
     <a href="{% url 'creatTicket' %}">[Demander une critique]</a>
     <a href="{% url 'creatTicketReview' %}">[Créer une critique]</a>
-
-
 
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
     {% for instReview_user in reviews_user %} <!-- boucle pour tester tous les Reviews de l'utilisateur -->
@@ -42,7 +19,6 @@
             <p>{{instReview_user.time_created}}</p>
             <p> Rating : {{instReview_user.rating}}</p>
              {% include "extrait/extr_rating_stars2.html" with rating=instReview_user.rating list_for_max_star=list_for_max_star  %}
-
             <p> headline : {{instReview_user.headline}}</p>
             <p> ticket : {{instReview_user.ticket.id}} </p>
             {% for inst_tickets_all_user in tickets_all_user %}
@@ -64,6 +40,7 @@
 
     {% for instReviews_other_user in reviews_other_user %} <!-- boucle pour les Reviews autres utilisateurs -->
          {% if instance.id == instReviews_other_user.id %}
+             {% if instReviews_other_user.user in listUserFollow  %}
             <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
             <p> Rating : {{instReviews_other_user.rating}}</p>
@@ -82,16 +59,17 @@
                       {% else %}
                         <p> <h4> pas d'image pour ce ticket </h4>  </p>
                      {% endif %}
-
                      <p> <h4> *************************************************************</h4> </p>
                 {% endif %}
              {% endfor %}
+            {% endif %}
           {% endif %}
     {% endfor %}
 
     {% for inst_ticket_other_user_whithout_review in ticket_other_user_whithout_review %}
              {% if inst_ticket_other_user_whithout_review.id == instance.id  %}
-                <p> <h1> {{inst_ticket_other_user_whithout_review.user}} a demandé une critique  : {{inst_ticket_other_user_whithout_review.id}} </h1></p>
+                 {% if inst_ticket_other_user_whithout_review.user in listTicketOtherUserFollowed  %}
+                        <p> <h1> {{inst_ticket_other_user_whithout_review.user}} a demandé une critique  : {{inst_ticket_other_user_whithout_review.id}} </h1></p>
                         <p> ticket time_created : {{inst_ticket_other_user_whithout_review.time_created}}</p>
                         <p> ticket titre : {{inst_ticket_other_user_whithout_review.title}}</p>
                         <p> ticket description : {{inst_ticket_other_user_whithout_review.description}}</p>
@@ -100,18 +78,10 @@
                         {% else %}
                            <p> <h4> pas d'image pour ce ticket </h4>  </p>
                         {% endif %}
-
-                        {{userFollow}}
-
-                        {% for i in listUserFollow %}
-                        <p>  {{i}}</p>
-                        {% endfor %}
-
-                        {{inst_ticket_other_user_whithout_review.user}}
-                    <br>
-                    <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}">[Créer une critique]</a>
+                        <br>
+                        <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}">[Créer une critique]</a>
+                {% endif %}
              {% endif %}
-
     {% endfor %}
 {% endfor %}
 </form>
