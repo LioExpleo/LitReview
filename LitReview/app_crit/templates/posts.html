@@ -3,24 +3,19 @@
 {% block content %}
 <form method="post" enctype="multipart/form-data">
 
-    <!--
-    {% for instTicketOther in tickets_other_user %}
-        <p> tickets_other_user id : {{ instTicketOther.id }}</p>
-    {% endfor %}
-    -->
-
-    <p> <h3>allReviews :  {{ allReviews }} </h3>  </p>
-    <p> <h3>tickets_user :  {{ tickets_user }} </h3>  </p>
+<!--
     <p> <h4>Liste des tickets dans le Review de l'utilisateur : listTicketInReviews_user :  {{ listTicketInReviews_user }} </h4>  </p>
     <p> <h4>Liste des tickets utilisateurs : listTicketInTicket_user :  {{ listTicketInTicket_user }} </h4>  </p>
     <p> <h4>Liste des tickets de l'utilisateur sans Review : listTicketWithoutReviews_user :  {{ listTicketWithoutReviews_user }} </h4>  </p>
 
     <p> la liste listTicketWithoutReviews_user, indique quel tickets seront à afficher sans Review </p>
+-->
 
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
      {% for instReview in reviews_user %} <!-- boucle 1.1 pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview.id %}
-        <div class="cl_post_review">
+        <p> </p>
+        <div class="cl_post_review" class="clPostTicketSansReview" style="width:550px;height:1150px;border:1px solid green">>
             <p> Review : {{ instReview }} <h2/> REVIEW {{ instReview.id }} </h2> </p>
             <p>Vous avez publié une critique</p>
             <p> time created : {{ instReview.time_created }}</p>
@@ -35,9 +30,10 @@
             <p> ------------------------Review------------------------------</p>
             {% for instTicketOther in tickets_other_user %}
             <!-- <p> TICKET AUTRE UTILISATEUR : {{ instTicketOther.id }}</p> -->
-            <!-- si le ticket du review = le ticket de l'utilisateur, afficher les données de l'autre utilisateur
+            <!-- si le ticket du review = l'id du ticket de l'utilisateur, afficher les données de l'autre utilisateur
             à la suite-->
                 {% if instReview.ticket.id == instTicketOther.id %}
+                    <div class="clPostTicketSansReview" style="width:500px;height:640px;border:1px solid blue">
                     <p> REVIEW avec TICKET AUTRE UTILISATEUR n° ticket : {{ instReview.ticket.id }}</p>
                     <p> <h4> instTicket.id :  {{ instTicketOther.id }} </h4>  </p>
                     <p> instTicket.user :  {{ instTicketOther.user }}   </p>
@@ -54,6 +50,9 @@
                     <br>
                     <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
                     <p> **************** FIN REVIEW + TICKET AVEC AUTRE UTILISATEUR CREATEUR DU TICKET ****************</p>
+                        <p> </p>
+                    </div>
+
                 {% endif %}
              {% endfor %}
 
@@ -62,6 +61,7 @@
              {% for instTicket in tickets_user %}
                      <!-- <p> instTicket.id : {{ instTicket.id }}</p>-->
                     {% if instReview.ticket.id == instTicket.id %}
+                        <div class="clPostTicketSansReview" style="width:500px;height:550px;border:1px solid red">
                         <p> <h4>instTicket.id :  {{ instTicket.id }} </h4>  </p>
                         <p> instTicket.user :  {{ instTicket.user }}  </p>
                         <p> Identifiant Unique : {{ instTicket.id }}</p>
@@ -76,28 +76,32 @@
                     <br>
                     <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
                 <p> **************** FIN REVIEW + TICKET AVEC MEME UTILISATEUR EN CREATEUR DU TICKET ****************</p>
-                <p> *************************************************************************************************</p>
+                        </div>
+
                     {% endif %}
             {% endfor %}
             {% endif %}
         {% endfor %}
 
+        <!-- Affichage des tickets de l'utilisateur sans Review de l'utilisateur   -->
        {% for i in listTicketWithoutReviews_user %} <!-- boucle 1.2 pour tester tous les tickets sans Review user -->
               {% if instance.id == i %}
-                 <p> instance.ID =  i , ticket de soi-même à afficher seul car pas de Review pour le ticket </p>
+                <p> ticket de soi-même à afficher seul car pas de Review pour le ticket </p>
 
                 {% for instTicket in tickets_user %} <!-- boucle 1.2.1 pour tester tous les tickets user -->
                     {% if instance.id == instTicket.id %}
 
+                        <div class="clPostTicketSansReview" style="width:500px;height:550px;border:1px solid black">
                         <p> **************** debut du ticket sans Review ****************</p>
-                        <p> <h4> instTicket.id : {{ instTicket.id }} </h4></p>
+                        <p> <h4> instTicket.id : {{ instTicket.id }} </h4>
                         <p>{{ instTicket.time_created  }}</p>
                         <p> Titre {{ instTicket.title }}</p>
                         <p>{{ instTicket.description }}</p>
                         {% if instTicket.image.url is not None %}
                             <img src="{{ instTicket.image.url }}" width="200" height="300">
                         {% endif %}
-                         <p> **************** fin du ticket sans Review ****************</p>
+                        <p> **************** fin du ticket sans Review ****************</p>
+                        </div>
                     {% endif %}
                 {% endfor %}
               {% endif %}
