@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <form method="post" enctype="multipart/form-data">
+
+<style> p {color: black;}
+  clPostReview {color: blue;}
+  clPostTicketSansReview {position: relative; top: 30px; left: 160px;
+                                                            width: 200px; border: 2px solid blue;
+                                                            text-align: center; width:400px;height:550px;
+                        padding-top:20px; padding-right:20px; padding-bottom:20px; padding-left:100px}
+ </style>
 
 <!--
     <p> <h4>Liste des tickets dans le Review de l'utilisateur : listTicketInReviews_user :  {{ listTicketInReviews_user }} </h4>  </p>
@@ -14,11 +22,14 @@
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
      {% for instReview in reviews_user %} <!-- boucle 1.1 pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview.id %}
-        <p> </p>
-        <div class="cl_post_review" class="clPostTicketSansReview" style="width:550px;height:1150px;border:1px solid green">>
-            <p> Review : {{ instReview }} <h2/> REVIEW {{ instReview.id }} </h2> </p>
-            <p>Vous avez publié une critique</p>
-            <p> time created : {{ instReview.time_created }}</p>
+
+        <div class="cl_divP1" style="  position: relative; top: 15px; left: 0px; right: 0px;
+                                                            width: 200px; border: 3px solid purple;
+                                                            text-align: left; width:950px;height:950px;
+                        padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px">
+
+            <p><h2/>Vous avez publié une critique  (référence {{ instReview.id }}){{ instReview.time_created }}</h2></p>
+
             <p> ticket : {{ instReview.ticket.id }}</p>
             <p> rating : {{ instReview.rating }}</p>
 
@@ -27,13 +38,16 @@
             <p> body : {{ instReview.body }}</p>
             <p> <h4> n° TICKET REVIEW : {{ instReview.ticket.id }}</p> </h4>
 
-            <p> ------------------------Review------------------------------</p>
             {% for instTicketOther in tickets_other_user %}
             <!-- <p> TICKET AUTRE UTILISATEUR : {{ instTicketOther.id }}</p> -->
             <!-- si le ticket du review = l'id du ticket de l'utilisateur, afficher les données de l'autre utilisateur
             à la suite-->
                 {% if instReview.ticket.id == instTicketOther.id %}
-                    <div class="clPostTicketSansReview" style="width:500px;height:640px;border:1px solid blue">
+                    <div class="cl_divP1_1" style="  position: relative; top: 0px; left: 50px;right:50px;
+                                                            width: 200px; border: 2px solid green;
+                                                            text-align: left; width:800px;height:550px;
+                        padding-top:0px; padding-right:0px; padding-bottom:60px; padding-left:100px">
+                    <br>
                     <p> REVIEW avec TICKET AUTRE UTILISATEUR n° ticket : {{ instReview.ticket.id }}</p>
                     <p> <h4> instTicket.id :  {{ instTicketOther.id }} </h4>  </p>
                     <p> instTicket.user :  {{ instTicketOther.user }}   </p>
@@ -43,16 +57,18 @@
 
                     {% if instTicketOther.image.url is not None %}
                         <img src="{{ instTicketOther.image.url }}" width="200" height="300">
+                    {% else %}
+                             <img src="{% static 'img/NoImgOtherUser.gif' %}"  alt="Etoile" width="200" height="300">
                     {% endif %}
-
+                    <br>
+                    <br>
                     <br>
                     <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
-                    <br>
                     <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
-                    <p> **************** FIN REVIEW + TICKET AVEC AUTRE UTILISATEUR CREATEUR DU TICKET ****************</p>
-                        <p> </p>
-                    </div>
 
+                    </div>
+                    <br>
+                    <br>
                 {% endif %}
              {% endfor %}
 
@@ -61,7 +77,10 @@
              {% for instTicket in tickets_user %}
                      <!-- <p> instTicket.id : {{ instTicket.id }}</p>-->
                     {% if instReview.ticket.id == instTicket.id %}
-                        <div class="clPostTicketSansReview" style="width:500px;height:550px;border:1px solid red">
+                        <div class="cl_divP1_2" style="  position: relative; top: 0px; left: 50px;right:50px;
+                                                            width: 200px; border: 2px solid yellow;
+                                                            text-align: left; width:800px;height:560px;
+                        padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:100px">
                         <p> <h4>instTicket.id :  {{ instTicket.id }} </h4>  </p>
                         <p> instTicket.user :  {{ instTicket.user }}  </p>
                         <p> Identifiant Unique : {{ instTicket.id }}</p>
@@ -70,43 +89,57 @@
 
                         {% if instTicket.image.url is not None %}
                             <img src="{{ instTicket.image.url }}" width="200" height="300">
+                        {% else %}
+                             <img src="{% static 'img/NoImg.gif' %}"  alt="Etoile" width="200" height="300">
                         {% endif %}
-                    <br>
-                    <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
-                    <br>
-                    <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
-                <p> **************** FIN REVIEW + TICKET AVEC MEME UTILISATEUR EN CREATEUR DU TICKET ****************</p>
-                        </div>
+                    <br><br><br><br><br><br>
+                    <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
+                    <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
 
+                    <br>
+                        </div>
+                    <br>
+
+            </div>
                     {% endif %}
             {% endfor %}
             {% endif %}
+
+
+
         {% endfor %}
 
         <!-- Affichage des tickets de l'utilisateur sans Review de l'utilisateur   -->
        {% for i in listTicketWithoutReviews_user %} <!-- boucle 1.2 pour tester tous les tickets sans Review user -->
               {% if instance.id == i %}
-                <p> ticket de soi-même à afficher seul car pas de Review pour le ticket </p>
 
                 {% for instTicket in tickets_user %} <!-- boucle 1.2.1 pour tester tous les tickets user -->
                     {% if instance.id == instTicket.id %}
+                        <br>
+                        <div class="cl_divP2" style="  position: relative; top: 0px; left: 0px;
+                                                            width: 200px; border: 2px solid blue;
+                                                            text-align: left; width:1030px;height:520px;
+                        padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px" >
 
-                        <div class="clPostTicketSansReview" style="width:500px;height:550px;border:1px solid black">
-                        <p> **************** debut du ticket sans Review ****************</p>
-                        <p> <h4> instTicket.id : {{ instTicket.id }} </h4>
+                        <p> <h4> Vous avez publié un ticket {{ instTicket.id }}</h4>  </p>
                         <p>{{ instTicket.time_created  }}</p>
                         <p> Titre {{ instTicket.title }}</p>
                         <p>{{ instTicket.description }}</p>
                         {% if instTicket.image.url is not None %}
                             <img src="{{ instTicket.image.url }}" width="200" height="300">
+                        {% else %}
+                             <img src="{% static 'img/NoImg.gif' %}"  alt="Etoile" width="200" height="300">
                         {% endif %}
-                        <p> **************** fin du ticket sans Review ****************</p>
+                        <br>
+                        <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
+                        <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
                         </div>
+
                     {% endif %}
                 {% endfor %}
               {% endif %}
        {% endfor %}
-</div>
+
 {% endfor %}
 </form>
 {% endblock %}

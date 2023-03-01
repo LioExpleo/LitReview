@@ -1,11 +1,11 @@
 {% block content %}
 {% load static %}
-<div class="clExtrRatingStar">
+
 {% for i in list_for_max_star %}
     {% if i <= rating %}
         <img src="{% static 'img/Star2.gif' %}"  alt="Etoile" width="20" height="20">
     {% endif %}
 {% endfor %}
-</div>
+
 {% endblock %}
 
