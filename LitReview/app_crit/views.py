@@ -74,8 +74,6 @@ def indexReview(request,id):
          'messages': messages,
          'reviews_to_my_tickets': reviews_to_my_tickets,
          'ticketReview': ticketReview,
-
-
      }
      return render(request, 'creatReview.html', context=context )
 
@@ -226,9 +224,14 @@ def viewsPosts(request):
         listTicketInTicket_user.append(TicketInTicket_user)
         listTicket_user.append(TicketInTicket_user)
 
+    # Création de la liste des tickets ayant comme Review lui-même
+    listTicketReviewsEvenUser=[]
+    for i in reviews_user:
+        if i.ticket.user == i.user:
+           listTicketReviewsEvenUser.append(i.ticket.id)
+
     # CONSTRUCTION DE LA LISTE DES TICKETS QUI N'ONT PAS DE REVIEW (à partir des 2 listes précédentes)
     # on prend la liste de tous les tickets, et on supprime ceux qui se retrouvent dans review avec pop
-
     # copie de la liste des tickets utilisateurs dans la liste pour construction liste ticket sans review
     listTicketWithoutReviews_user = [i for i in listTicketInTicket_user]
 
@@ -284,6 +287,7 @@ def viewsPosts(request):
         'listTicketWithoutReviews_user': listTicketWithoutReviews_user,
         'listTicket_user': listTicket_user,
         'list_for_max_star': list_for_max_star,
+        'listTicketReviewsEvenUser':listTicketReviewsEvenUser,
     }
     return render(request, 'posts.html', context=context)
 
@@ -292,12 +296,9 @@ def viewsFlux(request):
 
     # récup de tous les Reviews de l'utilisateur et de tous les utilisateurs
     test = request.user
-
     reviews_user = Review.objects.filter(user=test)
     #reviews_user = Review.objects.filter(user=request.user)
     reviews_all_user = Review.objects.all()
-
-
     list_reviews_user =[]
     # CREATION DE LA LISTE DES REVIEWS AUTRES UTILISATEURS
     # création liste review utilisateur

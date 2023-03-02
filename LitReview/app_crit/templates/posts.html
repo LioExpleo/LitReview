@@ -24,8 +24,8 @@
         {% if instance.id == instReview.id %}
 
         <div class="cl_divP1" style="  position: relative; top: 15px; left: 0px; right: 0px;
-                                                            width: 200px; border: 3px solid purple;
-                                                            text-align: left; width:950px;height:950px;
+                                                            width: 200px; border: 4px solid purple;
+                                                            text-align: left; width:950px;height:925px;
                         padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px">
 
             <p><h2/>Vous avez publié une critique  (référence {{ instReview.id }}){{ instReview.time_created }}</h2></p>
@@ -45,7 +45,7 @@
                 {% if instReview.ticket.id == instTicketOther.id %}
                     <div class="cl_divP1_1" style="  position: relative; top: 0px; left: 50px;right:50px;
                                                             width: 200px; border: 2px solid green;
-                                                            text-align: left; width:800px;height:550px;
+                                                            text-align: left; width:800px;height:570px;
                         padding-top:0px; padding-right:0px; padding-bottom:60px; padding-left:100px">
                     <br>
                     <p> REVIEW avec TICKET AUTRE UTILISATEUR n° ticket : {{ instReview.ticket.id }}</p>
@@ -68,19 +68,21 @@
 
                     </div>
                     <br>
-                    <br>
+
                 {% endif %}
              {% endfor %}
 
      <!-- Les critiques qui sont affichées en réponse au ticket de l'utilisateur lui-même doivent être
-     listées séparément du ticket-->
+     listées séparément du ticket ensuite-->
              {% for instTicket in tickets_user %}
-                     <!-- <p> instTicket.id : {{ instTicket.id }}</p>-->
-                    {% if instReview.ticket.id == instTicket.id %}
+                 <!-- <p> instTicket.id : {{ instTicket.id }}</p>-->
+                {% if instReview.ticket.id == instTicket.id %}
+
                         <div class="cl_divP1_2" style="  position: relative; top: 0px; left: 50px;right:50px;
-                                                            width: 200px; border: 2px solid yellow;
+                                                            width: 200px; border: 2px solid pink;
                                                             text-align: left; width:800px;height:560px;
                         padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:100px">
+                            <p> <h4> Vous avez publié un ticket que vous avez vous-même critiqué {{ instTicket.id }}</h4>  </p>
                         <p> <h4>instTicket.id :  {{ instTicket.id }} </h4>  </p>
                         <p> instTicket.user :  {{ instTicket.user }}  </p>
                         <p> Identifiant Unique : {{ instTicket.id }}</p>
@@ -95,32 +97,59 @@
                     <br><br><br><br><br><br>
                     <a href="{% url 'review_update' instReview.id %}">[Modifier Review]</a>
                     <a href="{% url 'review_delete' instReview.id %}">[Supprimer Review]</a>
-
                     <br>
                         </div>
-                    <br>
-
             </div>
-                    {% endif %}
+            <br>
+                {% endif %}
             {% endfor %}
             {% endif %}
-
-
-
         {% endfor %}
 
         <!-- Affichage des tickets de l'utilisateur sans Review de l'utilisateur   -->
        {% for i in listTicketWithoutReviews_user %} <!-- boucle 1.2 pour tester tous les tickets sans Review user -->
               {% if instance.id == i %}
-
                 {% for instTicket in tickets_user %} <!-- boucle 1.2.1 pour tester tous les tickets user -->
                     {% if instance.id == instTicket.id %}
+                        <div class="cl_divP2" style="  position: relative; top: 0px; left: 0px;right:50px;
+                                                            width: 200px; border: 2px solid black;
+                                                            text-align: left; width:930px;height:510px;
+                        padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:100px">
+
+                        <p> <h4> Vous avez publié un ticket (sans sa propre critique) {{ instTicket.id }}</h4>  </p>
+                        <p>{{ instTicket.time_created  }}</p>
+                        <p> Titre {{ instTicket.title }}</p>
+                        <p>{{ instTicket.description }}</p>
+                        {% if instTicket.image.url is not None %}
+                            <img src="{{ instTicket.image.url }}" width="200" height="300">
+                        {% else %}
+                             <img src="{% static 'img/NoImg.gif' %}"  alt="Etoile" width="200" height="300">
+                        {% endif %}
+                        <br>
+                        <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
+                        <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
+                        </div>
+                        <br>
+
+                    {% endif %}
+                {% endfor %}
+              {% endif %}
+       {% endfor %}
+
+        <!-- Affichage des tickets de l'utilisateur en dehors des Review utilisateur   -->
+     {% for instTicket in tickets_user %}
+        {% if instance.id == instTicket.id %}
+            {% if instTicket.id in listTicketReviewsEvenUser %}
                         <br>
                         <div class="cl_divP2" style="  position: relative; top: 0px; left: 0px;
-                                                            width: 200px; border: 2px solid blue;
-                                                            text-align: left; width:1030px;height:520px;
+                                                            width: 200px; border: 5px solid IndianRed ;
+                                                            text-align: left; width:1030px;height:620px;
                         padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px" >
 
+                             <p> <h4> listTicketReviewsEvenUser :  {{ listTicketReviewsEvenUser }}   </p>
+
+                        <p>  listTicketWithoutReviews_user.user :  {{ listTicketWithoutReviews_user }} </p>
+                        <p> <h4> Vous avez publié un ticket (sans sa propre critique) {{ instTicket.id }}</h4>  </p>
                         <p> <h4> Vous avez publié un ticket {{ instTicket.id }}</h4>  </p>
                         <p>{{ instTicket.time_created  }}</p>
                         <p> Titre {{ instTicket.title }}</p>
@@ -134,11 +163,9 @@
                         <a href="{% url 'ticket_update' instTicket.id %}">[Modifier ticket]</a>
                         <a href="{% url 'ticket_delete' instTicket.id %}">[Supprimer ticket]</a>
                         </div>
-
-                    {% endif %}
-                {% endfor %}
-              {% endif %}
-       {% endfor %}
+            {% endif %}
+        {% endif %}
+     {% endfor %}
 
 {% endfor %}
 </form>

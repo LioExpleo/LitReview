@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
-
-{% block content %}
 {% load static %}
+{% block content %}
+
 <form method="post" enctype="multipart/form-data">
     <p>FLUX HTML</p>
  <br>
-<a href="{% url 'creatTicket' %}">[Demander une critique (créer un ticket) ]</a>
+    <span style="border: 1px solid black; padding: 10px;width:300px"> <a href="{% url 'creatTicket' %}"> Demander une critique </a></span>
+    <span style="border: 1px solid black; padding: 10px;width:300px"> <a href="{% url 'creatTicketReview' %}">Créer une critique</a></span>
 <br>
 <a href="{% url 'creatTicketReview' %}">[Créer une critique (créer un Review + critique]</a>
     <br>
-    <a href="{% url 'creatTicket' %}">[Demander une critique]</a>
+    <a href="{% url 'creatTicket' %}" style="background:#dbe0ef;
+border-top:2px solid #aeb8de;
+border-bottom:2px solid #aeb8de;
+padding:1em 1em 1em 5em;">
+        Demander une critique</a>
     <a href="{% url 'creatTicketReview' %}">[Créer une critique]</a>
 
 {% for instance in tickets_and_reviews %} <!-- boucle 1 pour tester tous les Reviews et tickets -->
     {% for instReview_user in reviews_user %} <!-- boucle pour tester tous les Reviews de l'utilisateur -->
         {% if instance.id == instReview_user.id %}
+            <div class="cl_divP1" style="  position: relative; top: 15px; left: 0px; right: 0px;
+                                                            width: 200px; border: 4px solid purple;
+                                                            text-align: left; width:950px;height:760px;
+                        padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px">
             <p><h4>Vous avez publié une critique  {{instReview_user.id}} </h4></p>
             <p>{{instReview_user.time_created}}</p>
             <p> Rating : {{instReview_user.rating}}</p>
@@ -23,16 +32,22 @@
             <p> ticket : {{instReview_user.ticket.id}} </p>
             {% for inst_tickets_all_user in tickets_all_user %}
                 {% if instReview_user.ticket.id == inst_tickets_all_user.id %}
+                    <div class="cl_divP1" style="  position: relative; top: 15px; left: 20px; right: 0px;
+                                                            width: 200px; border: 4px solid green;
+                                                            text-align: left; width:850px;height:480px;
+                        padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:30px">
                      <p> ticket trouvé : {{instReview_user.ticket.id}}</p>
-                     <p> ticket time_created : {{instReview_user.ticket.time_created}}</p>
+                     <p> ticket time_created: {{instReview_user.ticket.time_created}}</p>
                      <p> ticket titre : {{instReview_user.ticket.title}}</p>
                      <p> ticket description : {{instReview_user.ticket.description}}</p>
                      {% if instReview_user.ticket.image.url is not None %}
                         <img src="{{ instReview_user.ticket.image.url }}" width="200" height="300">
                      {% else %}
-                        <p> <h4> pas d'image pour ce ticket </h4></p>
+                        <img src="{% static 'img/NoImgOtherUser.gif' %}"  alt="Etoile" width="200" height="300">
                      {% endif %}
-                     <p> <h4> *************************************************************</h4> </p>
+
+                    </div>
+            </div>
                 {% endif %}
             {% endfor %}
         {% endif %}
@@ -41,6 +56,10 @@
     {% for instReviews_other_user in reviews_other_user %} <!-- boucle pour les Reviews autres utilisateurs -->
          {% if instance.id == instReviews_other_user.id %}
              {% if instReviews_other_user.user in listUserFollow  %}
+            <div class="cl_divP1" style="  position: relative; top: 15px; left: 0px; right: 0px;
+                                                            width: 200px; border: 4px solid black;
+                                                            text-align: left; width:950px;height:750px;
+                        padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px">
             <p> <h4> {{instReviews_other_user.user}} a posté la review {{instReviews_other_user.id}}</h4> </p>
             <p>{{instReviews_other_user.time_created}}</p>
             <p> Rating : {{instReviews_other_user.rating}}</p>
@@ -54,12 +73,13 @@
                      <p> ticket titre : {{instReviews_other_user.ticket.title}}</p>
                      <p> ticket description : {{instReviews_other_user.ticket.description}}</p>
 
-                     {% if instReviews_user_other.ticket.image.url is not None %}
+                     {% if instReviews_other_user.ticket.image.url is not None %}
                         <img src="{{ instReviews_other_user.ticket.image.url }}" width="200" height="300">
                       {% else %}
-                        <p> <h4> pas d'image pour ce ticket </h4>  </p>
+                         <img src="{% static 'img/NoImgOtherUser.gif' %}"  alt="Etoile" width="200" height="300">
                      {% endif %}
-                     <p> <h4> *************************************************************</h4> </p>
+
+            </div>
                 {% endif %}
              {% endfor %}
             {% endif %}
@@ -69,6 +89,10 @@
     {% for inst_ticket_other_user_whithout_review in ticket_other_user_whithout_review %}
              {% if inst_ticket_other_user_whithout_review.id == instance.id  %}
                  {% if inst_ticket_other_user_whithout_review.user in listTicketOtherUserFollowed  %}
+                        <div class="cl_divP1" style="  position: relative; top: 15px; left: 0px; right: 0px;
+                                                            width: 200px; border: 4px solid blue;
+                                                            text-align: left; width:950px;height:520px;
+                        padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px">
                         <p> <h1> {{inst_ticket_other_user_whithout_review.user}} a demandé une critique  : {{inst_ticket_other_user_whithout_review.id}} </h1></p>
                         <p> ticket time_created : {{inst_ticket_other_user_whithout_review.time_created}}</p>
                         <p> ticket titre : {{inst_ticket_other_user_whithout_review.title}}</p>
@@ -79,7 +103,8 @@
                            <p> <h4> pas d'image pour ce ticket </h4>  </p>
                         {% endif %}
                         <br>
-                        <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}">[Créer une critique]</a>
+                        <a href="{% url 'creatReview' inst_ticket_other_user_whithout_review.id %}" style="border-width:2px; ">[Créer une critique]</a>
+                        </div>
                 {% endif %}
              {% endif %}
     {% endfor %}
