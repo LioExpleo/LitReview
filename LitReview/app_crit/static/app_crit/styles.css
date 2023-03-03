@@ -231,6 +231,28 @@ position:relative;
 left:70%;
 }
 
+.cl_posts_divP1{position: relative; top: 15px; left: 0px; right: 0px; width: 200px; border: 4px solid purple;
+text-align: left; width:950px;height:925px; padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px
+}
 
+.cl_posts_divP2{
+position: relative; top: 0px; left: 0px;right:50px;width: 200px; border: 2px solid black; text-align: left;
+width:930px;height:530px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:100px
+}
 
+.cl_posts_divP3{
+position: relative; top: 0px; left: 0px; width: 200px; border: 5px solid IndianRed; text-align: left;
+width:1030px;height:640px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px
+}
 
+.cl_posts_divP1_1{position: relative; top: 0px; left: 50px; right:50px; width: 200px; border: 2px solid green;
+text-align: left; width:800px;height:510px; padding-top:0px; padding-right:0px; padding-bottom:60px; padding-left:100px
+}
+
+.cl_posts_divP1_2{position: relative; top: 0px; left: 50px;right:50px; width: 200px; border: 2px solid pink;
+text-align: left; width:800px;height:560px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:100px
+}
+
+.cl_posts_delete_review, .cl_posts_delete_ticket, .cl_posts_update_ticket, .cl_posts_update_review {
+border: 1px solid black; border-radius: 5px; padding: 0px 50px 5px
+}
