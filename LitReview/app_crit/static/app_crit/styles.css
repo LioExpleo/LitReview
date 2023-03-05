@@ -256,3 +256,31 @@ text-align: left; width:800px;height:560px; padding-top:0px; padding-right:0px; 
 .cl_posts_delete_review, .cl_posts_delete_ticket, .cl_posts_update_ticket, .cl_posts_update_review {
 border: 1px solid black; border-radius: 5px; padding: 0px 50px 5px
 }
+
+.cl_flux_divP1{
+position: relative; top: 15px; left: 0px; right: 0px; width: 200px; border: 4px solid purple; text-align: left;
+width:950px;height:780px; padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px
+}
+.cl_flux_divP1_1{position: relative; top: 15px; left: 20px; right: 0px; width: 200px; border: 4px solid green;
+text-align: left; width:850px;height:480px; padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:30px
+}
+.cl_flux_divP2{
+position: relative; top: 15px; left: 0px; right: 0px; width: 200px; border: 4px solid #076973;
+text-align: left; width:950px;height:800px; padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px
+}
+.cl_flux_divP3{
+position: relative; top: 15px; left: 0px; right: 0px; width: 200px; border: 4px solid blue; text-align: left;
+width:950px;height:520px; padding-top:0px; padding-right:80px; padding-bottom:0px; padding-left:0px
+}
+.cl_flux_btn_creat_ticket{
+border: 1px solid black; padding: 10px 50px 15px;width:150px; position: relative; top: 0px; left: 170px;
+right: 500px;border-radius: 5px;
+}
+.cl_flux_btn_creat_review{
+border: 1px solid black; padding: 10px 50px 15px;width:150px;position: relative; top: 0px; left: 400px;
+right: 500px;border-radius: 5px;
+}
+.cl_flux_btn_creat_review_answer{
+border: 1px solid black; padding: 0px 50px 5px;width:10px; position: relative; top: 0px; left: 5px;
+right: 500px;border-radius: 5px;
+}

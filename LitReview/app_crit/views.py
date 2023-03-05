@@ -381,10 +381,9 @@ def viewsFlux(request):
     tickets_all_user = Ticket.objects.all()
 
     reviews_other_user_0 = Review.objects.all()
-
     reviews_other_user = reviews_other_user_0.exclude(user=request.user)
 
-    test2="*"
+
     Ticket_id = ticket_all_user
     userFollow = UserFollows.objects.filter(user=request.user)
 
@@ -401,11 +400,8 @@ def viewsFlux(request):
         for j in listUserFollow:
             if i.user == j:
                 listTicketOtherUserFollowed.append(j)
-
             listI.append(i.user)
             listJ.append(j)
-
-
 
     if request.method == 'POST' and "nameFluxCreatReviewTicketConnu" in request.POST:
         Ticket_id = ticket_all_user
@@ -413,10 +409,9 @@ def viewsFlux(request):
         context={
             'Ticket_id': Ticket_id,
             'listUserFollow': listUserFollow,
-            'listTicketOtherUserFollowed':listTicketOtherUserFollowed,
+            'listTicketOtherUserFollowed': listTicketOtherUserFollowed,
         }
         return render(request, 'creatTicketReview.html', context=context)
-
 
 
     tickets_and_reviews = sorted(chain(tickets_all_user, reviews_all_user),
@@ -432,13 +427,9 @@ def viewsFlux(request):
         'reviews_other_user_0': reviews_other_user_0,
         'reviews_other_user': reviews_other_user,
         'listTicketOtherUserFollowed':listTicketOtherUserFollowed,
-        'listJ':listJ,
-        'listI':listI,
-
         'tickets_all_user': tickets_all_user,
         'tickets_user': tickets_user,
         'ticket_other_user_whithout_review': ticket_other_user_whithout_review,
-        'test': test,
         'listUserFollow': listUserFollow,
         'userFollow': userFollow,
         'Ticket_id': Ticket_id,
