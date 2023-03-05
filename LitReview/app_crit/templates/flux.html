@@ -63,17 +63,16 @@
                       {% else %}
                          <img src="{% static 'img/NoImgOtherUser.gif' %}"  alt="pas d'image" width="200" height="300">
                      {% endif %}
-                <!-- si le créateur du ticket est le créateur de la critique -->
+                <!-- si le créateur du ticket est le créateur de la critique, et que personne d'autre n'a
+                fait de critique du ticket -->
                 {% if instReviews_other_user.ticket.user == instReviews_other_user.user %}
-
-
-                 <p> Vous pouvez poster une critique en réponse à la critique de l'utilisateur de son
-                     propre ticket si personne d'autre ne l'a fait</p>
-                <span class="cl_flux_btn_creat_review_answer" >
-                            <a href="{% url 'creatReview' instReviews_other_user.ticket.id %}"
-                               style="border-width:2px; ">Créer une critique</a></span>
-
-
+                       {% if instReviews_other_user.ticket.id not in listTicketTwoReviews %}
+                             <p> Vous pouvez poster une critique en réponse à la critique de l'utilisateur de son
+                                 propre ticket, vous pouvez y répondre car personne d'autre ne l'a fait</p>
+                            <span class="cl_flux_btn_creat_review_answer" >
+                                        <a href="{% url 'creatReview' instReviews_other_user.ticket.id %}"
+                                           style="border-width:2px; ">Créer une critique</a></span>
+                       {% endif %}
                 {% endif %}
             </div>
                 {% endif %}

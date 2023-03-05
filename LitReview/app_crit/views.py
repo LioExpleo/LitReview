@@ -403,6 +403,16 @@ def viewsFlux(request):
             listI.append(i.user)
             listJ.append(j)
 
+
+    listTicketTwoReviews = []
+    for i in reviews_all_user:
+        nb = 0
+        for j in reviews_all_user:
+            if i.ticket.id == j.ticket.id:
+                nb += 1
+                if nb > 1 and i.ticket.id not in listTicketTwoReviews:
+                    listTicketTwoReviews.append(i.ticket.id)
+
     if request.method == 'POST' and "nameFluxCreatReviewTicketConnu" in request.POST:
         Ticket_id = ticket_all_user
         userFollow = UserFollows.objects.all()
@@ -440,6 +450,7 @@ def viewsFlux(request):
         'list_ticket_other_user_whithout_review': list_ticket_other_user_whithout_review,
         'list_ticket_all_user_all_review': list_ticket_all_user_all_review,
         'list_for_max_star': list_for_max_star,
+        'listTicketTwoReviews': listTicketTwoReviews,
     }
     return render(request, 'flux.html', context=context) # le formulaire est généré dans le modèle
 
