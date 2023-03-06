@@ -11,19 +11,22 @@
     <title>LitReview</title>
   </head>
    <body>
-
+    <div style="color: green;">
     <h1 id="base_title">LitReview</h1>
 
     {% if user.is_authenticated %}
-        <nav>
-            <a href="{% url 'flux' %}">Flux</a>
-            <a href="{% url 'posts' %}">Posts</a>
-            <a href="{% url 'abonnement' %}">Abonnements</a>
-            <a href="{% url 'logout' %}">Se déconnecter</a>
+         <div style="color:red;background-color:D9ECCC ; position: absolute; top: 50px; left: 1050px;">
+        <nav class="cl_base_menu" >
+            <a style="color: black;" href="{% url 'flux' %}">Flux</a>
+            <a style="color: black;" href="{% url 'posts' %}">Posts</a>
+            <a style="color: black;" href="{% url 'abonnement' %}">Abonnements</a>
+            <a style="color: black;" href="{% url 'logout' %}">Se déconnecter</a>
         </nav>
+        </div>
+        <br>
         {% endif %}
 
-     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+
          <!-- Note
       <a class="navbar-brand" href="{% url 'home' %}">Mes Notesxxx</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,16 +34,8 @@
       </button>
     -->
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-          <!--
-            <li class="nav-item active">
 
-            <a class="nav-link" href="{% url 'home' %}">LitReviewww<span class="sr-only">(current)</span></a>
-
-          </li>
-          -->
-        </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" style=" display: flex; flex-direction: column ; background-color:D9ECCC ;">
           {% if user.is_authenticated %}
           <li class="nav-item active">
             <a class="nav-link" href="#">{{user}},</a>
@@ -52,8 +47,9 @@
 
           {% endif %}
         </ul>
-      </div>
+
     </nav>
+    </div>
 
     <main role="main" class="container">
 
@@ -70,5 +66,6 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  </body>
+   </div>
+   </body>
 </html>

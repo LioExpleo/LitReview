@@ -37,6 +37,7 @@ def indexTicket(request):
         donneesFormulaireTicket.user = request.user
         #donneesFormulaireTicket.image = "https://www.bing.com/maps?q=projet+9+d%C3%A9vellopeur+application+python+guithub&FORM=HDRSC4&cp=46.780342%7E-1.402078&lvl=12.1"
         form.save()
+        return redirect('posts')
         form = TicketForm()
      return render(request, 'creatTicket.html', {'form': form, 'messages': messages, 'obj_recup_01': obj_recup_01})
 
@@ -57,17 +58,6 @@ def indexReview(request,id):
             review.ticket = ticketReview
             review.save()
             return redirect('posts')
-    #*************************************
-     ''''
-     # Mise de l'utilisateur
-     if form.is_valid():
-        donneesFormulaireReview = form.save(commit=False)
-        donneesFormulaireReview.user = request.user
-        form.save()
-        form = ReviewForm()
-     else :
-         messages = "Enregistrement"
-     '''
 
      context = {
          'form': form,
@@ -106,7 +96,7 @@ def indexTicketReview(request):
             review.ticket = ticket
             ticket.save()
             review.save()
-         return redirect('home')
+         return redirect('posts')
 
      context = {
          'ticket_form': ticket_form,
@@ -336,8 +326,11 @@ def viewsFlux(request):
         index2 = 0
         for j in list_reviews_user:
             if list_reviews_all_user[indexReview] == list_reviews_user[index2]:
-                list_reviews_other_user.pop(indexReview)
-                break
+                try:
+                    list_reviews_other_user.pop(indexReview)
+                    break
+                except:
+                    pass
             index2 += 1
         longListReview -= 1
 
@@ -349,8 +342,11 @@ def viewsFlux(request):
         index2 = 0
         for j in list_ticket_user:
             if list_ticket_all_user[indexTicket] == list_ticket_user[index2]:
-               list_ticket_other_user.pop(indexTicket)
-               break
+                try:
+                    list_ticket_other_user.pop(indexTicket)
+                    break
+                except:
+                    pass
             index2 += 1
         longListTicket -= 1
 
@@ -364,11 +360,12 @@ def viewsFlux(request):
         indexTicket_other_user = longListTicket_other_user - 1
         index2 = 0
         for j in list_reviews_all_user:
-            if list_ticket_other_user[indexTicket_other_user] == list_ticket_all_user_all_review[index2]:
-                list_ticket_other_user_whithout_review.pop(indexTicket_other_user)
-                break
-            index2 += 1
-        longListTicket_other_user = longListTicket_other_user - 1
+            if len(list_ticket_other_user) > 0:
+                if list_ticket_other_user[indexTicket_other_user] == list_ticket_all_user_all_review[index2]:
+                    list_ticket_other_user_whithout_review.pop(indexTicket_other_user)
+                    break
+                index2 += 1
+            longListTicket_other_user = longListTicket_other_user - 1
 
     ticket_other_user_whithout_review =[]
     for i in list_ticket_other_user_whithout_review:
@@ -538,26 +535,4 @@ def ticket_update(request, id):
     }
     return render(request, 'ticket_update.html', context=context) # le formulaire est généré dans le modèle
 
-'''
-def creatReviewTicketConnu(request):
-     review_form = ReviewForm()
-     ticket_form = TicketForm()
-     # si click
-     if request.method == 'POST' or None and "nameFluxCreatReviewTicketConnu" in request.POST:
-         ticket_form = TicketForm(request.POST, request.FILES)
-         review_form = ReviewForm(request.POST)
-         ticket_id = ticket_form.id
 
-         if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.ticket = ticket_id
-            ticket.save()
-            review.save()
-         return redirect('home')
-
-     context = {
-         'review_form': review_form,
-     }
-     return render (request, 'CreatReviewTicketConnu.html', context=context)
-'''

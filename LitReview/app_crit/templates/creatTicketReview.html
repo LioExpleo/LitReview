@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="review">
-
-<form method="post" enctype="multipart/form-data" class="cl_ticket_Review">
-     <div class="cl_ticket">
-        <h3 class="cl_tr_titre_ticket">Livre/Article template  CreatTicketReview</h3>
-        {% include "extrait/extrTicketForm.html" %}
-    </div>
+</form>
+    <h3>Critique template  CreatTicketReview</h3>
+        <form method="post" enctype="multipart/form-data" id="creat_ticket">
+        {% csrf_token %}
+        {{ ticket_form.as_p }}
 
     <h3>Critique template  CreatTicketReview</h3>
-        {% include "extrait/extrReviewForm.html" %}
+        <form method="post" enctype="multipart/form-data" id="creat_review">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+
         <button type="submit" class="cl_ticketReview_bouton_envoyer" name="name_ticketReview_bouton_envoyer" >CreatTicketReview</button>
 
 </form>

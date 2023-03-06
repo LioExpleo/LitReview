@@ -16,6 +16,8 @@
             <label class="form-check-label" for="id_rating_{{ forloop.counter0 }}"> - {{ forloop.counter0 }}</label>
              </div>
         {% endfor %}
+
+
     </div>
 </div>
 
@@ -24,3 +26,5 @@
     <textarea name="body" id="id_body" class="form-control" style="height:200px;">{{ review.body }}</textarea>
 </div>
 {% csrf_token %}
+
+
